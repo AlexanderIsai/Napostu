@@ -1,9 +1,11 @@
-import './App.css';
+import { Header } from './components/Header/Header';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
     <div className="App">
-HERE IS OUR PROJECT
+      <Header/>
+      <AppRoutes/>
     </div>
   );
 }
