@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm i --prefix front && npm i --prefix server && npm run build --prefix front && rm -rf server/public/* && cp -a front/build/. server/public",
+    "start": "npm i --prefix server && npm start --prefix server",
+    "dev": "run-p front-script server-script",
+    "front-script": "npm start --prefix front",
+    "server-script": "npm start --prefix server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
