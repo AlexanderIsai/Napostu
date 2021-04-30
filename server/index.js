@@ -156,12 +156,10 @@ app.get('/api/users', (req, res) => {
 })
 
 app.get('/api/users/:userId', (req, res) => {
-  const {userId} = req.params;
-  console.log(userId)
-  console.log(users.find(el => el.id === userId))
+  const {userId} = req.params;                // console.log(userId)  // console.log(users.find(el => el.id === userId))
   res.send(users.find(el => el.id === userId))
 })
 
 app.listen(port, () => {
-  console.log(`server listeting on port ${port}`)
+  console.log(`server listening on port ${port}`)
 })

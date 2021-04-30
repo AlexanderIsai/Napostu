@@ -7,13 +7,13 @@ import {useEffect} from 'react';
 const UserPage = () => {
 
   const params = useParams();
-  const {userId} = params;
-  console.log("userId: ", userId);
+  const {userId} = params;          // console.log("userId: ", userId);
 
   useEffect(() => {
     axios(`/api/users/${userId}`)
       .then(res => {
-        console.log("user from http://localhost:3000/users/userId (userId -> 01 или -> 02):", res.data);
+        console.log(`user ${userId}: `, res.data);     // user from http://localhost:3000/users/userId (userId -> 01 или -> 02)
+        return res.data;
       })
   }, [userId]);
 
