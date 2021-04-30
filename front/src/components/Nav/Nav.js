@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,6 +17,16 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
+  navLink: {
+    textDecoration: 'none',
+    fontSize: '20px',
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  navLinkMob: {
+    textDecoration: 'none',
+    color: 'black',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -116,13 +127,15 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
     </Menu>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
+
+                                        /* секция мобильного меню */
   const renderMobileMenu = (
-    <Menu
+    <Menu                                        
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
@@ -131,22 +144,39 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+      <NavLink className={classes.navLinkMob} to='/items'>
+        <MenuItem>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={1} color="secondary">
+              <span>P</span>
+            </Badge>
+          </IconButton>
+          <p>Я подписан</p>
+        </MenuItem>
+      </NavLink>
+
+      <NavLink className={classes.navLinkMob} to='/items'>
+        <MenuItem>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={2} color="secondary">
+              <span>U</span>
+            </Badge>
+          </IconButton>
+          <p>На которых можно подписаться</p>
+        </MenuItem>
+      </NavLink>
+
+      <NavLink className={classes.navLinkMob} to='/items'>
+        <MenuItem>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={3} color="secondary">
+              <span>F</span>
+            </Badge>
+          </IconButton>
+          <p>Избранное</p>
+        </MenuItem>
+      </NavLink>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -156,7 +186,7 @@ export default function PrimarySearchAppBar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Профиль</p>
       </MenuItem>
     </Menu>
   );
@@ -165,17 +195,13 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            NaPOSTU
-          </Typography>
+
+          <NavLink className={classes.navLink} to='/main'>
+              NaPOSTU
+          </NavLink>
+          
+           <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -189,29 +215,46 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
+
+          <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
+
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <NavLink className={classes.navLink} to='/main'>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={1} color="secondary">
+                  <span>P</span>
+                </Badge>
+              </IconButton>
+            </NavLink>
+
+            <NavLink className={classes.navLink} to='/asd'>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                  <Badge badgeContent={2} color="secondary">
+                    <span>U</span>
+                  </Badge>
+                </IconButton>
+            </NavLink>
+
+            <NavLink className={classes.navLink} to='/asd'>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={3} color="secondary">
+                  <span>F</span>
+                </Badge>
+              </IconButton>
+            </NavLink>
+
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
             >
               <AccountCircle />
             </IconButton>
           </div>
+
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -225,8 +268,11 @@ export default function PrimarySearchAppBar() {
           </div>
         </Toolbar>
       </AppBar>
+
       {renderMobileMenu}
+
       {renderMenu}
+
     </div>
   );
 }
