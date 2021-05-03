@@ -7,6 +7,7 @@ const port = process.env.PORT || 8085;
 const users = [
   {
     "id": "01",
+    "nickname": "oorlova",
     "email": "orlova@gmail.com",
     "password": "orlova01",
     "token": "0000001",
@@ -29,20 +30,23 @@ const users = [
             "user": "users.id",
             "post_id": "users.id.posts.post_id",
             "comment_id": "id",
-            "text": "some comment from user1"
-            },
+            "text": "some comment from user1",
+            "comment_date": "comment_date",
+          },
           {
             "user": "users.id",
             "post_id": "users.id.posts.post_id",
             "comment_id": "id",
-            "text": "some comment from user45"
-            },
+            "text": "some comment from user45",
+            "comment_date": "comment_date",
+          },
           {
             "user": "users.id",
             "post_id": "users.id.posts.post_id",
             "comment_id": "id",
-            "text": "some comment from user33"
-           }
+            "text": "some comment from user33",
+            "comment_date": "comment_date",
+          }
         ]
       },
       {
@@ -57,19 +61,22 @@ const users = [
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
+            "text": "some comment from user45",
+            "comment_date": "comment_date",
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
+            "text": "some comment from user33",
+            "comment_date": "comment_date",
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"
+            "text": "some comment from user1",
+            "comment_date": "comment_date",
           }
         ]
       }
@@ -80,6 +87,7 @@ const users = [
 
   {
     "id": "02",
+    "nickname": "vkotovskiy",
     "email": "kotovskiy@gmail.com",
     "password": "kotovskiy02",
     "token": "0000002",
@@ -101,19 +109,23 @@ const users = [
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"       //  (т е from ${users.id})
+            "text": "some comment from user1",       //  (т е from ${users.id})
+            "comment_date": "comment_date",
+
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
+            "text": "some comment from user45",
+            "comment_date": "comment_date",
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
+            "text": "some comment from user33",
+            "comment_date": "comment_date",
           }
         ]
       },
@@ -129,19 +141,22 @@ const users = [
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
+            "text": "some comment from user45",
+            "comment_date": "comment_date",
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
+            "text": "some comment from user33",
+            "comment_date": "comment_date",
           },
           {
             "comment_id": "id",
             "user_commented": "users.id",
             "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"
+            "text": "some comment from user1",
+            "comment_date": "comment_date",
           }
         ]
       }
