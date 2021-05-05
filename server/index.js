@@ -1,165 +1,262 @@
-const express = require('express');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const express = require('express')
+const bodyParser = require('body-parser')
+const fs = require('fs');
+const app = express()
+const port = 5000;
 
-const app = express();
 
-const port = process.env.PORT || 8085;
+function hash(data){
+    return require("crypto")
+        .createHash("sha256")
+        .update(data)
+        .digest("hex");
+}
 
-const users = [
-  {
-    "id": "01",
-    "email": "orlova@gmail.com",
-    "password": "orlova01",
-    "token": "0000001",
-    "avatar": "imgURL",
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
 
-    // вместо "user1" записываем=> users.id,  "user45" => users.id и т д по коду...
-    "subscriptions": ["user1", "user45", "user33", "user2", "user10"],
-    "subscribers": ["user1", "user45", "user2", "user10"],
+mongoose.connect('mongodb://localhost:27017/test-insta', {useNewUrlParser: true, useUnifiedTopology: true});
 
-    "posts": [
-      {
-        "post_id": "orlova01",
-        "post_date": "post_date",
-        "post_img": "imgURL",
-        "post_description": "description for orlova post 1",
-        "post_likers": ["user1", "user45", "user33"],
-        "post_likes_counter": "23",
-        "post_comments": [
-          {
-            "user": "users.id",
-            "post_id": "users.id.posts.post_id",
-            "comment_id": "id",
-            "text": "some comment from user1"
-            },
-          {
-            "user": "users.id",
-            "post_id": "users.id.posts.post_id",
-            "comment_id": "id",
-            "text": "some comment from user45"
-            },
-          {
-            "user": "users.id",
-            "post_id": "users.id.posts.post_id",
-            "comment_id": "id",
-            "text": "some comment from user33"
-           }
-        ]
-      },
-      {
-        "post_id": "orlova02",
-        "post_date": "post_date",
-        "post_img": "imgURL",
-        "post_description": "description for orlova post 2",
-        "post_likers": ["user45", "user33", "user1",],
-        "post_likes_counter": "4",
-        "post_comments": [
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"
-          }
-        ]
-      }
-    ],
+const User = mongoose.model('User',{
+    _id: Number,
+    nickname: String,
+    email: String,
+    avatarUrl: String,
+    password: { type: String, select: false },
+    token: { type: String, select: false },
+    subscribers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }],
+    subscriptions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }]
+});
 
-    "favorites": ["users.id.posts.post_id", "users.id.posts.post_id"]
-  },
 
-  {
-    "id": "02",
-    "email": "kotovskiy@gmail.com",
-    "password": "kotovskiy02",
-    "token": "0000002",
-    "avatar": "imgURL",
+const Post = mongoose.model("Post",{
+    _id: Number,
+    imageUrl: String,
+    post_description: String,
+    date: Date,
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment",
+        }
+    ]
+});
 
-    "subscriptions": ["user1", "user45", "user33", "user2", "user10"],
-    "subscribers": ["user1", "user45", "user2", "user10"],
+const Comment = mongoose.model('Comment',{
+    text: String,
+    date: Date,
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    post: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+    }
+});
 
-    "posts": [
-      {
-        "post_id": "kotovskiy01",
-        "post_date": "post_date",
-        "post_img": "imgURL",
-        "post_description": "description for kotovskiy post 1",
-        "post_likers": ["user1", "user45", "user33"],
-        "post_likes_counter": "23",
-        "post_comments": [
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"       //  (т е from ${users.id})
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
-          }
-        ]
-      },
-      {
-        "post_id": "kotovskiy02",
-        "post_date": "post_date",
-        "post_img": "imgURL",
-        "post_description": "description for kotovskiy post 2",
-        "post_likers": ["user45", "user33", "user1",],
-        "post_likes_counter": "4",
-        "post_comments": [
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user45"
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user33"
-          },
-          {
-            "comment_id": "id",
-            "user_commented": "users.id",
-            "comment_to_post": "users.id.posts.post_id",
-            "text": "some comment from user1"
-          }
-        ]
-      }
-    ],
+//Добавляем нового юзера
+Post.find().populate('post').then(posts => {
+    const testUser = new User ({
+        _id: 7,
+        nickname: "Vikusya",
+        email: "vikusya@test.ua",
+        password: 1222,
+        token: "hereIsToken",
+        avatar: "url",
+        subscriptions: [],
+        subscribers: [],
+        post: posts,
+        //     favorites:[]
 
-    "favorites": ["users.id.posts.post_id", "users.id.posts.post_id", "users.id.posts.post_id"]
-  },
-]
+    })
+    // testUser.save().then(()=>{})
 
-app.get('/api/users', (req, res) => {
-  res.send(users)
 })
 
-app.get('/api/users/:userId', (req, res) => {
-  const {userId} = req.params;                // console.log(userId)  // console.log(users.find(el => el.id === userId))
-  res.send(users.find(el => el.id === userId))
+
+User.findById(1).then(user => {
+    Comment.findOne().then(comments => {
+        const testPost = new Post ({
+            _id: 103,
+            imageUrl: "urlIMG",
+            post_description: "Here is posttext3 from ivanov id 1",
+            date: new Date,
+            // likers: [{user : "user111"}, {user: "user444"}, {user: "user333"}],
+            // like_counter: 23,
+            creator: user,
+            comments: comments
+        })
+        // testPost.save().then(()=>{})
+    })
 })
+
+const authMiddleware = (req, res, next) => {
+
+    if(!req.headers.authorization){
+        const err = new Error("Not authorized!");
+        err.status = 403;
+        return next(err);
+    }
+
+    User.findOne({token: req.headers.authorization}).then(user => {
+
+        if(!user){
+            const err = new Error("Not authorized!");
+            err.status = 403;
+            return next(err);
+        }
+
+        req.userId = user.id;
+
+        next();
+        return;
+
+    });
+
+
+
+}
+
+app.post('/signup',(req,res) => {
+    const name = req.body.name;
+    const password = req.body.password;
+
+    const user = new User({
+        name: name,
+        password: hash(password)
+    });
+
+    user.save().then(() => {
+        res.json({success: true});
+    })
+
+
+})
+
+app.post('/login',(req,res,next) => {
+
+    const name = req.body.name;
+    const password = req.body.password;
+
+    User.findOne({name: name, password: hash(password)}).then(user => {
+
+        if(!user){
+            next(new Error("wrong name or password"))
+
+        }
+
+        const token = hash(user._id + new Date());
+
+        user.token = token;
+        user.save().then(() => {
+            res.json({token: token});
+        })
+
+    })
+
+
+})
+
+
+app.get('/userfeed',(req,res) => {
+
+    User.find().populate().then(users => {
+        res.json(users);
+        // Promise.all(users.map(post => {
+        //     return Comment.find({post: post}).then(comments => {
+        //         post.comments = comments;
+        //     })
+        // })).then(() => {
+        //     res.json(posts);
+        // });
+
+
+    })
+
+})
+
+app.get('/postfeed', (req, res) => {
+    Post.find().populate().then(posts => {
+        res.json(posts);
+})
+
+})
+
+app.get('/commentfeed', (req, res) => {
+    Comment.find().populate().then(comments => {
+        res.json(comments);
+    })
+
+})
+
+
+// app.use("/",authMiddleware);
+
+app.post('/post',(req,res) => {
+
+    const text = req.body.text;
+    const imageUrl = req.body.imageUrl;
+
+    User.findById(req.userId).then(user => {
+        const post = new Post({
+            imageUrl: imageUrl,
+            text: text,
+            date: new Date(),
+            creator: user
+        });
+
+        post.save().then(() => {
+            res.json(post);
+        })
+    })
+
+});
+
+app.post('/comment/:postId',(req,res) => {
+    const text = req.body.text;
+    const postId = req.params.postId;
+
+    Post.findById(postId).then(post => {
+
+        User.findById(req.userId).then(user => {
+
+            const comment = new Comment(
+                {
+                    text: text,
+                    creator: user,
+                    post: post,
+                    date: new Date(),
+                }
+            );
+
+            comment.save().then(() => {
+                res.json(comment);
+            })
+
+        })
+
+
+
+
+    })
+});
+
+
+
 
 app.listen(port, () => {
-  console.log(`server listening on port ${port}`)
+    console.log(`Example app listening at http://localhost:${port}`)
 })

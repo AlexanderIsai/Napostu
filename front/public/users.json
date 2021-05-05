@@ -1,0 +1,14 @@
+[
+  {
+    "_id": 1,
+    "nickname":"vika",
+    "email":"vika@test.ua",
+    "password":"vika1",
+    "token":"0000001",
+    "avatar":"imgURL",
+    "subscriptions":["2", "3", "4"],
+    "subscribers": ["2", "3", "4"],
+    "posts":["first", "second", "third"],
+    "favorites":[]
+  }
+]
