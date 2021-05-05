@@ -2,7 +2,7 @@ import {LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, LOAD_USERS_FAILURE} from './type
 import axios from "axios";
 import {setUsers} from "./actions";
 
-const path = `/api/users`;
+const path = `/userfeed`;
 
 export const getUsers = () => (dispatch, getState) => {
   dispatch({type: LOAD_USERS_REQUEST})
