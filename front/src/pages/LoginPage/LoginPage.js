@@ -1,11 +1,9 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -13,6 +11,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useRef } from 'react';
+import { setAuthenticated } from '../../store/auth/actions';
+import { connect } from 'react-redux';
 
 function Copyright() {
   return (
@@ -45,8 +46,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = (props) => {
+
+  const password = useRef();
+  const login = useRef();
+
   const classes = useStyles();
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    console.log('must send logpass to server...');
+    console.log('login -- ', login.current.value);
+    console.log('password -- ', password.current.value);
+    props.setAuthenticated(true);
+  }
+
+  if (props.auth.authenticated) {
+    return <Redirect to='/main' />
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -58,31 +75,32 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={(e) => {
-            e.preventDefault();
-            console.log('must sent logpass to server...');
-        }}>
+        <form className={classes.form} 
+        onSubmit={submitForm}
+        >
           <TextField
             variant="outlined"
             margin="normal"
-            required
+            required={true}
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
             autoFocus
+            inputRef={login}
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
+            required={true}
             fullWidth
             name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
+            inputRef={password}
           />
           <Button
             type="submit"
@@ -108,3 +126,17 @@ export default function SignIn() {
     </Container>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthenticated: (data) => dispatch(setAuthenticated(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
