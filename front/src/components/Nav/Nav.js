@@ -11,8 +11,8 @@ import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { setAuthenticated } from '../../store/auth/actions';
 import { connect } from 'react-redux';
+import { setUserActive } from '../../store/auth/actions';
 
 const useStyles = makeStyles((theme) => ({
   navLink: {
@@ -90,8 +90,8 @@ const useStyles = makeStyles((theme) => ({
 
 function PrimarySearchAppBar(props) {
 
-  const { setAuthenticated } = props;
-  const { authenticated } = props.auth;
+  const { userActive } = props.auth;
+  const { setUserActive } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -117,7 +117,8 @@ function PrimarySearchAppBar(props) {
   };
 
   const handleLogout = () => {
-    setAuthenticated(false);
+    setUserActive(null);
+    localStorage.removeItem('token');
     handleMenuClose();
   };
 
@@ -209,7 +210,7 @@ function PrimarySearchAppBar(props) {
           
            <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
 
-          {authenticated && <div className={classes.search}>
+          {userActive && <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -225,7 +226,7 @@ function PrimarySearchAppBar(props) {
 
           <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
 
-          {authenticated && <div className={classes.sectionDesktop}>
+          {userActive && <div className={classes.sectionDesktop}>
             <NavLink className={classes.navLink} to='/main'>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={1} color="secondary">
@@ -262,7 +263,7 @@ function PrimarySearchAppBar(props) {
             </IconButton>
           </div>}
 
-          {authenticated && <div className={classes.sectionMobile}>
+          {userActive && <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -276,9 +277,9 @@ function PrimarySearchAppBar(props) {
         </Toolbar>
       </AppBar>
 
-      {authenticated && renderMobileMenu}
+      {userActive && renderMobileMenu}
 
-      {authenticated && renderMenu}
+      {userActive && renderMenu}
 
     </div>
   );
@@ -286,7 +287,7 @@ function PrimarySearchAppBar(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAuthenticated: (data) => dispatch(setAuthenticated(data))
+    setUserActive: (data) => dispatch(setUserActive(data))
   }
 }
 

@@ -1,5 +1,5 @@
-import { SET_AUTHENTICATED } from "./types"
+import { SET_USER_ACTIVE } from "./types"
 
-export const setAuthenticated = (data) => {
-    return {type: SET_AUTHENTICATED, payload: data}
+export const setUserActive = (user) => {
+    return {type: SET_USER_ACTIVE, payload: user}
 }

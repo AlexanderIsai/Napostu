@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,8 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRef } from 'react';
-import { setAuthenticated } from '../../store/auth/actions';
 import { connect } from 'react-redux';
+import { authenticate, handleReload } from '../../store/auth/operations';
+
 
 function Copyright() {
   return (
@@ -47,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
+  const { authenticate, auth, handleReload } = props;
+
+  useEffect(() => {
+    if (!auth.userActive && localStorage.getItem('token')) {
+      handleReload(localStorage.getItem('token'));
+    }
+  }, []);
 
   const password = useRef();
   const login = useRef();
@@ -55,13 +63,14 @@ const SignIn = (props) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log('must send logpass to server...');
-    console.log('login -- ', login.current.value);
-    console.log('password -- ', password.current.value);
-    props.setAuthenticated(true);
+    
+    const userLogin = login.current.value;
+    const userPassword = password.current.value;
+
+    authenticate(userLogin, userPassword);
   }
 
-  if (props.auth.authenticated) {
+  if (auth.userActive) {
     return <Redirect to='/main' />
   }
 
@@ -135,7 +144,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAuthenticated: (data) => dispatch(setAuthenticated(data))
+    authenticate: (email, password) => dispatch(authenticate(email, password)),
+    handleReload: (token) => dispatch(handleReload(token))
   }
 }
 

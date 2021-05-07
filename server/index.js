@@ -148,27 +148,40 @@ app.post('/signup',(req,res) => {
 
 app.post('/login',(req,res,next) => {
 
-    const name = req.body.name;
+    const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({name: name, password: hash(password)}).then(user => {
+    User.findOne({email: email, password: password}).then(user => {
 
         if(!user){
             next(new Error("wrong name or password"))
-
+            return;
         }
 
         const token = hash(user._id + new Date());
 
         user.token = token;
         user.save().then(() => {
-            res.json({token: token});
+            res.json({user: user});
         })
 
     })
 
 
 })
+
+app.post('/reload', (req, res) => {
+
+    const token = req.body.token;
+
+    User.findOne({token: token}).then(user => {
+        if(!user){
+            next(new Error("wrong token"))
+            return;
+        }
+        res.json({user: user})
+    })
+});
 
 
 app.get('/userfeed',(req,res) => {

@@ -10,15 +10,15 @@ import SignIn from "../pages/LoginPage/LoginPage.js";
 
 const AppRoutes = (props) => {
 
-  const { authenticated } = props.auth;
+  const { userActive } = props.auth;
 
   return (
     <div className="app-routes">
       <Switch>
         <Redirect exact from="/" to="/main"/>
         <Route exact path="/login" component={SignIn}/>
-        <ProtectedRoute authenticated={authenticated} exact path="/main" component={MainPage}/>
-        <ProtectedRoute authenticated={authenticated} exact path="/api/users/:userId" component={UserPage}/>
+        <ProtectedRoute authenticated={userActive} exact path="/main" component={MainPage}/>
+        <ProtectedRoute authenticated={userActive} exact path="/api/users/:userId" component={UserPage}/>
         <Route path="*" component={Page404}/>
       </Switch>
     </div>
