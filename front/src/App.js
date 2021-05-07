@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getUsers} from "./store/users/operations";
 import Loading from "./components/Loading/Loading";
 
-import {Header} from './components/Header/Header';
+import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
 
 

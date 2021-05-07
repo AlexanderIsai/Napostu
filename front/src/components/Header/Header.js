@@ -1,10 +1,19 @@
+import { connect } from "react-redux";
 import PrimarySearchAppBar from "../Nav/Nav"
 
-export const Header = () => {
+const Header = (props) => {
 
     return (
         <header>
-            <PrimarySearchAppBar/>
+            <PrimarySearchAppBar />
         </header>
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps)(Header);

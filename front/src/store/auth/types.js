@@ -1,0 +1,1 @@
+export const SET_USER_ACTIVE = 'SET_USER_ACTIVE';
