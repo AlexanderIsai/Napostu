@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   wrapper: {
-    padding: "36px 24px 0 24px",
+    padding: "0px 24px 0 24px",
     height: "100vh",
     overflow: "scroll",
 

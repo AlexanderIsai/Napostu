@@ -15,7 +15,8 @@ import Body from "./components/Body/Body";
 const App = (props) => {
   const {getUsers, users, isLoading} = props;
 
-  let id, userActive;
+  let ind, userActive;
+
   useEffect(() => {
     getUsers();
     console.log("USERS : ", users)
@@ -49,10 +50,10 @@ const App = (props) => {
   } else {
     console.log("users from redux state: ", users);
 
-    id = users.findIndex(obj => obj.id === "01");
-    console.log("userActive ID : ", id);
-    console.log("userActive : ", users[id]);
-    userActive = users[id];
+    ind = users.findIndex(obj => obj._id === 1);
+    console.log("userActive ID : ", ind);
+    console.log("userActive : ", users[ind]);
+    userActive = users[ind];
     console.log("userActive email : ", userActive.email);
 
   }
@@ -66,9 +67,7 @@ const App = (props) => {
   return (
     <div className={classes.root}>
       <Header />
-      {/*<div style={{background: " \"linear-gradient(90deg, rgba(240,241,242,1) 0%, \" +\n" +*/}
-      {/*    "        \"rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, \" +\n" +*/}
-      {/*    "        \"rgba(240,241,242,1) 100%)\"", height: "36px", position: "sticky", top: "0px"}}></div>*/}
+
 
 
       <Body userActive ={userActive}/>

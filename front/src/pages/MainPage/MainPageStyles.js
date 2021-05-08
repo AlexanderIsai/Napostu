@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "0.7em",
       fontWeight: "500",
       color: "lightgray",
-      paddingBottom: "4px",
+      // paddingBottom: "4px",
     },
 
     smallTitlePostsLine: {
@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "500",
       color: "white",
       position: "sticky",
-      top: "180px",
+      top: "212px",
       display: "table",
       background: "#3f51b5",
       padding: "0 4px",
-      marginBottom: "4px",
+      // marginBottom: "4px",
     },
 
     link: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
     subscribtionElBoxSticky: {
       position: "sticky",
-      top: 0,
+      top: "16px",
     },
 
     subscribtions: {
@@ -57,8 +57,9 @@ const useStyles = makeStyles((theme) => ({
       background: "none",
       boxShadow: "none",
       borderRadius: 0,
+      // borderLeft: "1px solid lightgray",
       borderBottom: "1px solid lightgray",
-      borderTop: "1px solid lightgray",
+      borderRight: "1px solid lightgray",
     },
 
     subscribtionElBox: {
@@ -69,13 +70,19 @@ const useStyles = makeStyles((theme) => ({
       minWidth: "100px",
       maxWidth: "100px",
       overflowX: "scroll",
-      background: "#ffffff",
+      background: "rgb(255 255 255 54%)",
+
+      // background: "#ffffff",
       // border: "1px solid red",
       borderRadius: 16,
       // borderRadius: "50%",
       boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
       padding: "8px",
       margin: "8px",
+    },
+
+    spaceNeedsAtTheEndOfList: {
+      minWidth: "8px",
     },
 
     postsLine: {
@@ -85,7 +92,8 @@ const useStyles = makeStyles((theme) => ({
     post: {
       // padding: "8px",
       // height: "500px",
-      marginBottom: "36px",
+      // marginBottom: "54px",
+      margin: "0 2px 54px",
       background: "none",
     },
 
@@ -94,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
     sideBarStickyBox: {
       textAlign: 'left',
       position: "sticky",
-      top: 0,
+      top: "194px",
     },
     //------------------ sideBar activeUser ------------------
     activeUserPaper: {
@@ -110,6 +118,8 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "space-evenly",
       height: "100%",
+      padding: "3px 0",
+
       borderRight: "1px solid lightgray",
       borderBottom: "1px solid lightgray",
       background: "#ffffff",
@@ -120,6 +130,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
       textAlign: "center",
       margin: "0 8px",
+
       color: "#3f51b5",
     },
 
@@ -132,10 +143,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     activeUserAvatarBox: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      paddingRight: "8px",
+      marginRight: "8px",
     },
 
     ActiveUserlink: {
@@ -150,17 +158,25 @@ const useStyles = makeStyles((theme) => ({
 
     //------------------ sideBar OfferToSubscribe ------------------
     sideBarOfferToSubscribe: {
-      padding: "8px",
+      padding: "8px 8px 0",
       marginLeft: "36px",
       marginBottom: 0,
-      height: "336px",
+      marginTop: "6px",
+      height: "400px",
       overflowY: "scroll",
     },
 
     offerToSubscribeElBox: {
       display: "flex",
+      alignItems: "center",
       flexWrap: "nowrap",
+      overflowX: "scroll",
       margin: "8px 4px 16px",
+
+      borderRadius: 16,
+      boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+      padding: "8px",
+      background: "#ffffff",
     },
 
     offerToSubscribeItem: {
@@ -168,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: "12px",
       textDecoration: "none",
       fontSize: "0.7em",
-      color: "#000",
+      color: "#000000",
     }
     //____________________________________________________________________
 

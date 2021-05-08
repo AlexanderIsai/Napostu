@@ -8,57 +8,71 @@ import Link from "@material-ui/core/Link";
 
 
 const UserAvatar = (props) => {
-  const {alt, url, size,
-    userActive,
-    // userId, users, userEmail
-  } = props;
+  const {size, user, textLink, borderAround} = props;
+
+  let nickTextLink, userAlt, borderStyle, sizeStyle, boxSizeStyle;
+
+  if (user) {
+    nickTextLink = `${user.email}`.substr(0, 1) + `.${user.email}`.split('@')[0];
+    userAlt = `${user.email}`.substr(0, 1).toUpperCase() + ` .${user.email}`.split('@')[0];
+  }
 
 
   const classes = useStyles();
+
+  if (borderAround) {
+    borderStyle = classes.avatarPhotoBoxBorder;
+  } else {
+    borderStyle = classes.avatarPhotoBox;
+  }
+
+  switch (size) {
+    case "small":
+      sizeStyle = classes.small;
+      boxSizeStyle = classes.avatarContentBox;
+      break;
+
+    case "medium":
+      sizeStyle = classes.medium;
+      boxSizeStyle = classes.avatarContentBox;
+      break;
+
+    case "large":
+      sizeStyle = classes.large;
+      boxSizeStyle = classes.avatarContentBoxLarge;
+      break;
+
+    default:
+      sizeStyle = classes.small;
+      boxSizeStyle = classes.avatarContentBox;
+  }
+
   return (
     <>
-      {size === "smallPlus" &&
-      <div>
-        <Link component={RouterLink} to={`/users/${userActive.id}`} style={{textDecoration: 'none'}}>
-          <Avatar alt={alt} src={{url}} className={classes.smallPlus}/>
+      {user &&
+      <div className={boxSizeStyle}>
+        <Link component={RouterLink} to={`/users/${user._id}`} style={{textDecoration: 'none'}}>
+          <div className={borderStyle}>
+            <Avatar alt={userAlt} src={user.avatar} className={sizeStyle}/>
+          </div>
         </Link>
-        <Link component={RouterLink} to={`/users/${userActive.id}`}
+        {textLink &&
+        <Link component={RouterLink} to={`/users/${user._id}`} className={classes.nickTextLink}
               style={{textDecoration: 'none'}}>
-          {`${userActive.email}`.substr(0, 1) + `.${userActive.email}`.split('@')[0]}
+          {nickTextLink}
         </Link>
+        }
       </div>
-
       }
-
-
-
-      {size === "small" &&
-      <Avatar alt={alt} src={{url}} className={classes.small}/>
-      }
-
-      {size === "medium" &&
-      <Avatar alt={alt} src={{url}} className={classes.medium}/>
-      }
-
-      {size === "large" &&
-      <Avatar alt={alt} src={{url}} className={classes.large}/>
-      }
-
     </>
-  );
-}
+  )
+};
+
 
 const mapStateToProps = (state) => {
-  return {
-    users: state.users.users,
-    isLoading: state.users.isLoading
-  }
+  return {}
 }
-
 const mapDispatchToProps = (dispatch) => {
-  return {
-    // getUsers: () => dispatch(getUsers()),
-  }
+  return {}
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(UserAvatar);
