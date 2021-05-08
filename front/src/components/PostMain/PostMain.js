@@ -4,37 +4,29 @@ import {connect, useSelector} from "react-redux";
 
 import UserAvatar from "../Avatar/Avatar";
 import Comment from "../Comment/Comment";
-import { IAddComment,  IFavoritePost } from "../Icons/Icons";
+import { IAddComment, ILikePost, IFavoritePost } from "../Icons/Icons";
+import {updateLikeCounter} from "../../store/posts/actions";
 
 
 const PostMain = (props) => {
-  const {users} = props;
+  const {users, posts, user, post} = props;
 
-  // console.log("USERS (from props) on post component: ", users);
-  // let usersH = useSelector(state => state.users.users);
-  // console.log("usersH on post component: ", usersH);
-
-  let ind, userActive;
-  if (!users[0]) {
-    console.log("not yet!!!")
-  } else {
-    console.log("USERS (from props) on post component: ", users);
-
-    ind = users.findIndex(obj => obj._id === 1);
-    console.log("userActive ID : ", ind);
-    console.log("userActive : ", users[ind]);
-    userActive = users[ind];
-    console.log("userActive email : ", userActive.email);
-  }
+  let userActive = users.find(obj => obj._id === user);
+  let postActive = post._id;
 
   const handleClick1 = (e) => {
-    console.log("I open area for comment");
+    console.log("I open area for comment for this post");
   }
 
-  const handleClick2 = (e) => {
-    console.log("I like post");
+
+  const handleClickLikesCounter = (e) => {
+    console.log("I like this post");    // console.log("postActive >> post._id: ", postActive);
+    props.updateLikeCount(postActive);
   }
 
+  const handleClick3 = (e) => {
+    console.log("I add to favorite this post");
+  }
 
   const classes = useStyles();
   return (
@@ -43,7 +35,7 @@ const PostMain = (props) => {
       <div className={classes.postMainHeader}>
         <div className={classes.postMainHeaderContent}>
 
-          {(userActive) &&
+          {/*{(userActive) &&*/}
           <div className={classes.postMainHeaderItem}>
             <UserAvatar
               size="small"
@@ -52,11 +44,11 @@ const PostMain = (props) => {
               borderAround={true}
             />
           </div>
-          }
+          {/*}*/}
 
           <div className={classes.postMainHeaderItem}>
             <div className={classes.headerDescriptionItem}>
-              post description
+              Description: {post.post_description}
             </div>
           </div>
 
@@ -68,7 +60,7 @@ const PostMain = (props) => {
         <div className={classes.postMainBodyContent}>
 
           <div className={classes.postMainBodyItem}>
-            Photo
+            Photo src: {post.imageUrl}
           </div>
 
         </div>
@@ -84,8 +76,15 @@ const PostMain = (props) => {
 
           <div className={classes.postMainFooterItem}>
             <div className={classes.footerIconsItem}>
-              <IAddComment onClick={handleClick1} />
-              <IFavoritePost onClick={handleClick2} />
+
+              <ILikePost onClick={ handleClickLikesCounter } />
+              <span className={classes.likeCounter}>
+                {post.like_counter}
+              </span>
+
+              <IFavoritePost onClick={handleClick3} />
+
+              <IAddComment onClick={handleClick1} style={{}}/>
             </div>
           </div>
 
@@ -106,12 +105,15 @@ const PostMain = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    isLoading: state.users.isLoading,
     users: state.users.users,
-    isLoading: state.users.isLoading
+    posts: state.posts.posts,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    updateLikeCount: (data) => dispatch(updateLikeCounter(data)),
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostMain);

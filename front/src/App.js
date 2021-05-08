@@ -5,57 +5,42 @@ import {useEffect} from 'react';
 import {connect} from 'react-redux';
 
 import {getUsers} from "./store/users/operations";
+import {getPosts} from "./store/posts/operations";
+
 import Loading from "./components/Loading/Loading";
 
-import {Header} from './components/Header/Header';
+// <<<<<<< HEAD
+// import {Header} from './components/Header/Header';
 // import AppRoutes from './routes/AppRoutes';
 import Body from "./components/Body/Body";
+// =======
+import Header from './components/Header/Header';
+import AppRoutes from './routes/AppRoutes';
+
+// >>>>>>> dev
 
 
 const App = (props) => {
-  const {getUsers, users, isLoading} = props;
-
-  let ind, userActive;
+  const {isLoading, getUsers, getPosts, users, posts} = props;
 
   useEffect(() => {
-    getUsers();
-    console.log("USERS : ", users)
-  }, [getUsers]);
-
-
-  // useEffect(() => {
-  //   id = users.findIndex(obj => obj.id === "01");
-  //   console.log("userActive ID : ", id);
-  //   console.log("userActive : ", users[id]);
-  //   userActive = users[id];
-  //   console.log("userActive email : ", userActive.email);
-  // }, []);
-
-
-
-  // Кнопка для проверки компонента ErrorBoundary - потестите посмотрите компонент ErrorBoundary,
-  // если замечаний нет - удаляем проверку
-  const [error, setError] = React.useState(false);
-  const handleClick = () => {
-    setError(true);
-  };
-  if (error) throw new Error();
-  // __________________________________________________
+    getUsers();                // console.log("USERS (from App.js useEffect) : ", users);
+    getPosts();                // console.log("POSTS (from App.js useEffect) : ", posts);
+  }, [getUsers, getPosts]);
 
 
   // ----- если с сервера прилетел users undefined -----
+  // let ind, userActive;
   if (!props.users[0]) {
-    // throw new Error();
-    console.log("!!!!!!!!!")
+    console.log("No users from server");    // throw new Error();
   } else {
     console.log("users from redux state: ", users);
-
-    ind = users.findIndex(obj => obj._id === 1);
-    console.log("userActive ID : ", ind);
-    console.log("userActive : ", users[ind]);
-    userActive = users[ind];
-    console.log("userActive email : ", userActive.email);
-
+    console.log("posts from redux state: ", posts);
+    // ind = users.findIndex(obj => obj._id === 1);
+    // console.log("userActive ID : ", ind);
+    // console.log("userActive : ", users[ind]);
+    // userActive = users[ind];
+    // console.log("userActive email : ", userActive.email);
   }
 
   const classes = useStyles();
@@ -68,15 +53,10 @@ const App = (props) => {
     <div className={classes.root}>
       <Header />
 
+      {/*<Body userActive = {userActive} />*/}
+      <Body />
 
-
-      <Body userActive ={userActive}/>
-
-      {/*<AppRoutes />*/}
-
-      {/* Кнопка для проверки компонента ErrorBoundary - если замечаний нет - удаляем проверку*/}
-      {/*<button onClick={handleClick}>Throw Error</button>*/}
-      {/*____________________________________________________*/}
+      <AppRoutes />
 
     </div>
   );
@@ -85,14 +65,17 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    isLoading: state.users.isLoading,
     users: state.users.users,
-    isLoading: state.users.isLoading
+    posts: state.posts.posts,
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers: () => dispatch(getUsers()),
+    getPosts: () => dispatch(getPosts()),
   }
 }
 

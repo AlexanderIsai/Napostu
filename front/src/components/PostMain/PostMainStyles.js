@@ -1,4 +1,5 @@
 import {makeStyles} from "@material-ui/core/styles";
+import {green} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,12 +10,10 @@ const useStyles = makeStyles((theme) => ({
 
 
   postMainHeader: {
-    // height: "54px",
     padding: "4px 4px 0 0",
     background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
       "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
       "rgba(240,241,242,1) 100%)",
-    // borderBottom: "1px solid lightgray",
   },
 
   postMainHeaderContent: {
@@ -29,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   headerDescriptionItem: {
-
+    color: "#585757",
+    fontSize: "1.1em",
   },
 
 
@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
   postMainFooter: {
     padding: "4px 4px 0",
     textAlign: "left",
+    '&::lastChild': {
+      textAlign: "center",
+    },
     // borderTop: "1px solid lightgray",
   },
 
@@ -79,13 +82,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
   },
 
-  footerIconsItem: {
+  footerIconsItem: {},
+
+  likeCounter: {
+    position: "relative",
+    left: "-20px",
+    top: "8px",
+    fontSize: "0.7em",
+    color: "darkgray",
+
 
   },
-
-  footerCommentsItem: {
-
-  },
+  footerCommentsItem: {},
 
 
 }));

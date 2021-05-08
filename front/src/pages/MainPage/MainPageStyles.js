@@ -1,6 +1,17 @@
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    padding: "0px 24px 0 24px",
+    height: "100vh",
+    overflow: "scroll",
+
+    textAlign: "center",
+    background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
+      "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
+      "rgba(240,241,242,1) 100%)",
+  },
+
     root: {
       flexGrow: 1,
       // background: "red",
@@ -17,15 +28,16 @@ const useStyles = makeStyles((theme) => ({
 
     smallTitle: {
       textAlign: "right",
-      fontSize: "0.7em",
+      fontSize: "0.8em",
       fontWeight: "500",
       color: "lightgray",
+      margin: 0,
       // paddingBottom: "4px",
     },
 
     smallTitlePostsLine: {
       textAlign: "left",
-      fontSize: "0.7em",
+      fontSize: "0.8em",
       fontWeight: "500",
       color: "white",
       position: "sticky",
@@ -33,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       display: "table",
       background: "#3f51b5",
       padding: "0 4px",
-      // marginBottom: "4px",
+      margin: 0,
     },
 
     link: {
@@ -50,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       justifyContent: "flex-start",
       marginLeft: "0",
-      marginBottom: "24px",
+      marginBottom: "36px",
       overflowX: "scroll",
 
       // background: "white",
@@ -106,9 +118,9 @@ const useStyles = makeStyles((theme) => ({
     },
     //------------------ sideBar activeUser ------------------
     activeUserPaper: {
-      height: "126px",
+      height: "134px",
       marginLeft: "36px",
-      marginBottom: "24px",
+      marginBottom: "36px",
       boxShadow: "none",
     },
 
@@ -118,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "space-evenly",
       height: "100%",
-      padding: "3px 0",
+      // padding: "3px 0",
 
       borderRight: "1px solid lightgray",
       borderBottom: "1px solid lightgray",
@@ -140,6 +152,7 @@ const useStyles = makeStyles((theme) => ({
       fontVariant: "small-caps",
       lineHeight: "1.08",
       letterSpacing: "0.027em",
+      margin: 0,
     },
 
     activeUserAvatarBox: {
@@ -161,8 +174,8 @@ const useStyles = makeStyles((theme) => ({
       padding: "8px 8px 0",
       marginLeft: "36px",
       marginBottom: 0,
-      marginTop: "6px",
-      height: "400px",
+      // marginTop: "6px",
+      height: "420px",
       overflowY: "scroll",
     },
 

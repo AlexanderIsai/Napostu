@@ -1,46 +1,52 @@
 import {createMuiTheme, withStyles, makeStyles, ThemeProvider} from '@material-ui/core/styles';
-import {green, purple} from '@material-ui/core/colors';
+import {green, purple, pink, indigo} from '@material-ui/core/colors';
 
-import IconButton from "@material-ui/core/IconButton";
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 export const useStyles = makeStyles((theme) => ({
   iconStile: {
-    // margin: theme.spacing(1),
+    margin: theme.spacing(1),
     position: "inherit",
   },
 }));
 
-export const MyIconButton = withStyles((theme) => ({
+
+export const MyThumbUpIcon = withStyles((theme) => ({
   root: {
-  //   color: theme.palette.getContrastText(green[500]),
-  //   backgroundColor: green[500],
-  //   '&:hover': {
-  //     backgroundColor: green[700],
-  //   },
+    color: indigo[300],
+    '&:hover': {
+      color: indigo[700],
+    },
+    '&:active': {
+      color: green[700],
+    },
   },
-}))(IconButton);
+}))(ThumbUpIcon);
+
 
 export const MyAddCommentIcon = withStyles((theme) => ({
   root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
+    color: purple[300],
     '&:hover': {
-      backgroundColor: purple[700],
+      color: purple[700],
+    },
+    '&:active': {
+      color: green[700],
     },
   },
-
 }))(AddCommentIcon);
 
 
 export const MyFavoriteIcon = withStyles((theme) => ({
   root: {
-    color: "white",
-
-    backgroundColor: green[500],
+    color: pink[50],
     '&:hover': {
-      backgroundColor: green[700],
+      color: pink["A400"],
+    },
+    '&:active': {
+      color: green[700],
     },
   },
 }))(FavoriteIcon);
