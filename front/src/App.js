@@ -1,14 +1,24 @@
 import React from 'react';
+import useStyles from './AppStyles';
+
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
 
 import {getUsers} from "./store/users/operations";
+
 import Loading from "./components/Loading/Loading";
 
-import {Header} from './components/Header/Header';
+// <<<<<<< HEAD
+// import {Header} from './components/Header/Header';
+// import AppRoutes from './routes/AppRoutes';
+import Body from "./components/Body/Body";
+// =======
+import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
 import {getPosts} from "./store/posts/operations";
 import {getComments} from "./store/comments/operations";
+
+// >>>>>>> dev
 
 
 const App = (props) => {
@@ -41,18 +51,37 @@ const App = (props) => {
   // console.log("comments from redux state: ", comments);
 
 
+
+
+  // ----- если с сервера прилетел users undefined -----
+  // let ind, userActive;
+  if (!props.users[0]) {
+    console.log("No users from server");    // throw new Error();
+  } else {
+    console.log("users from redux state: ", users);
+    console.log("posts from redux state: ", posts);
+    // ind = users.findIndex(obj => obj._id === 1);
+    // console.log("userActive ID : ", ind);
+    // console.log("userActive : ", users[ind]);
+    // userActive = users[ind];
+    // console.log("userActive email : ", userActive.email);
+  }
+
+
+  const classes = useStyles();
+
   if (isLoading) {
     return (<Loading/>)
   }
 
   return (
-    <div className="App">
-      <Header/>
-      <AppRoutes/>
+    <div className={classes.root}>
+      <Header />
 
-      {/* Кнопка для проверки компонента ErrorBoundary - если замечаний нет - удаляем проверку*/}
-      <button onClick={handleClick}>Throw Error</button>
-      {/*____________________________________________________*/}
+      {/*<Body userActive = {userActive} />*/}
+      <Body />
+
+      <AppRoutes />
 
     </div>
   );
@@ -61,8 +90,8 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users.users,
     isLoading: state.users.isLoading,
+    users: state.users.users,
     posts: state.posts.posts,
     comments: state.comments.comments
   }
@@ -73,6 +102,7 @@ const mapDispatchToProps = (dispatch) => {
     getUsers: () => dispatch(getUsers()),
     getPosts: () => dispatch(getPosts()),
     getComments: () => dispatch(getComments())
+
   }
 }
 

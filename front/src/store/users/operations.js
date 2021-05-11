@@ -3,15 +3,20 @@ import axios from "axios";
 import {setUsers} from "./actions";
 import {useParams} from "react-router-dom";
 
-const path = `/userfeed`;
+const pathUser = `/userfeed`;
 
 export const getUsers = () => (dispatch, getState) => {
   dispatch({type: LOAD_USERS_REQUEST})
 
-  axios(`${path}`)
+  axios(`${pathUser}`)
     .then(res => {
+<<<<<<< HEAD
       const data = res.data;
 
+=======
+      const data = res.data;    // console.log("LOAD_USERS_SUCCESS: ", data);
+      dispatch({type: LOAD_USERS_SUCCESS, payload: data})
+>>>>>>> dev
       return data;
     })
     .then(res => {
