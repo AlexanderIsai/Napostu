@@ -1,4 +1,4 @@
-import { SET_USER_ACTIVE }  from '../auth/types'
+import {SET_USER_ACTIVE} from "./types";
 
 const initialState = {
     userActive: null

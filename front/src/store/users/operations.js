@@ -10,13 +10,8 @@ export const getUsers = () => (dispatch, getState) => {
 
   axios(`${pathUser}`)
     .then(res => {
-<<<<<<< HEAD
-      const data = res.data;
-
-=======
       const data = res.data;    // console.log("LOAD_USERS_SUCCESS: ", data);
       dispatch({type: LOAD_USERS_SUCCESS, payload: data})
->>>>>>> dev
       return data;
     })
     .then(res => {
@@ -31,7 +26,7 @@ export const getUsers = () => (dispatch, getState) => {
 export const getUser =() => (dispatch) => {
     const params = useParams();
     const {userId} = params;
-    axios(`${path}`)
+    axios(`${pathUser}`)
         .then(res => {
             res.data.forEach(user => {
                 if (user._id == userId) {

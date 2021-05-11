@@ -8,17 +8,12 @@ import {getUsers} from "./store/users/operations";
 
 import Loading from "./components/Loading/Loading";
 
-// <<<<<<< HEAD
-// import {Header} from './components/Header/Header';
-// import AppRoutes from './routes/AppRoutes';
 import Body from "./components/Body/Body";
-// =======
+
 import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
 import {getPosts} from "./store/posts/operations";
 import {getComments} from "./store/comments/operations";
-
-// >>>>>>> dev
 
 
 const App = (props) => {
