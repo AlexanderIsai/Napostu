@@ -1,0 +1,20 @@
+[
+  {
+    "_id": 555,
+    "email": "kozlov@gmail.com",
+    "password": "555",
+
+    "nickname": "",
+    "token": "",
+
+    "avatarUrl": "",
+
+    "subscribers": [{"userId": 1}, {"userId": 2}, {"userId": 3}],
+    "subscriptions": [{"userId": 1}, {"userId": 2}, {"userId": 3}],
+    "posts": [{"postId": 1}, {"postId": 2}, {"postId": 3}],
+    "favorites": [{"postId": 1}],
+    "comments": [{"commentID": 1}, {"commentID": 2}],
+    "likes": [{"postId": 1, "commentId": 1}, {"postId": 2}, {"postId": 3,"commentId": 3}]
+  }
+]
+
