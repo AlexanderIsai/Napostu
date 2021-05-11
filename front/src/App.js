@@ -7,14 +7,21 @@ import Loading from "./components/Loading/Loading";
 
 import {Header} from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
+import {getPosts} from "./store/posts/operations";
+import {getComments} from "./store/comments/operations";
 
 
 const App = (props) => {
-  const {getUsers, users, isLoading} = props;
+  const {users, isLoading, posts, getUsers, getPosts, getComments, comments} = props;
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+    getUsers()
+    getPosts()
+    getComments()
+  }, [getUsers, getPosts, getComments]);
+
+
+
 
 
   // Кнопка для проверки компонента ErrorBoundary - потестите посмотрите компонент ErrorBoundary,
@@ -29,7 +36,9 @@ const App = (props) => {
 
   // ----- если с сервера прилетел users undefined -----
   if (!users) throw new Error();
-  console.log("users from redux state: ", users);
+  // console.log("users from redux state: ", users);
+  // console.log("posts from redux state: ", posts);
+  // console.log("comments from redux state: ", comments);
 
 
   if (isLoading) {
@@ -53,13 +62,17 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     users: state.users.users,
-    isLoading: state.users.isLoading
+    isLoading: state.users.isLoading,
+    posts: state.posts.posts,
+    comments: state.comments.comments
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers: () => dispatch(getUsers()),
+    getPosts: () => dispatch(getPosts()),
+    getComments: () => dispatch(getComments())
   }
 }
 

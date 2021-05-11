@@ -1,3 +1,5 @@
+// import {useParams} from "react-router-dom";
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const express = require('express')
@@ -5,6 +7,8 @@ const bodyParser = require('body-parser')
 const fs = require('fs');
 const app = express()
 const port = 5000;
+
+
 
 
 function hash(data){
@@ -16,8 +20,9 @@ function hash(data){
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
+app.use(express.static(__dirname + "/public"))
 
-mongoose.connect('mongodb://localhost:27017/test-insta', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://naPostu:naPostu999@testcluster10.1e1vj.mongodb.net/naPOSTUdb', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const User = mongoose.model('User',{
     _id: Number,
@@ -33,6 +38,10 @@ const User = mongoose.model('User',{
     subscriptions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+    }],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
     }]
 });
 
@@ -187,6 +196,14 @@ app.get('/userfeed',(req,res) => {
     })
 
 })
+
+// app.get('/userfeed/:userId',(req,res) => {
+//     // const params = useParams();
+//     // const {userId} = params;
+//     User.findById(`${userId}`).populate().then(user => {
+//         res.json(user);
+//     })
+// })
 
 app.get('/postfeed', (req, res) => {
     Post.find().populate().then(posts => {

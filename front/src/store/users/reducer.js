@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
     case SET_USERS:
       return {...state, users: action.payload}
 
-    case LOAD_USERS_FAILURE:         // console.log(action.payload.message)
+    case LOAD_USERS_FAILURE:
       return {...state, users: action.payload}
 
     default:

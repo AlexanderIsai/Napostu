@@ -1,0 +1,7 @@
+export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
+
+export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
+
+export const SET_POSTS = "SET_POSTS";
+
+export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
