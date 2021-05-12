@@ -1,0 +1,23 @@
+.likes-comments{
+  display: none;
+  justify-content: space-evenly;
+  width: 60%;
+}
+.likes{
+  width: 20px;
+  height: 20px;
+  background-color: white;
+}
+.comment{
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+}
+.div-inline{
+  display: flex;
+}
+.white-text{
+  color: white;
+
+}

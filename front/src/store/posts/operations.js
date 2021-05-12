@@ -20,4 +20,5 @@ export const getPosts = () => (dispatch, getState) => {
     .catch(error => {
       dispatch({type: LOAD_POSTS_FAILURE, payload: error})
     })
+
 }

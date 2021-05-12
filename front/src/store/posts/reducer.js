@@ -31,6 +31,7 @@ const reducer = (state = initialStatePosts, action) => {
     default:
       return state;
   }
+
 }
 
 export default reducer;

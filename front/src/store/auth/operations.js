@@ -13,6 +13,7 @@ export const authenticate = (email, password) => (dispatch) => {
          dispatch({type: SET_USER_ACTIVE, payload: res.data.user})
          localStorage.setItem('token', res.data.user.token);
          console.log(requestHeaders);
+          console.log(res.data);
       })
       .catch(err => {
         console.log(err);
