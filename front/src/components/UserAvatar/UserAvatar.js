@@ -1,5 +1,5 @@
 import React from 'react';
-import useStyles from './AvatarStyles';
+import useStyles from './UserAvatarStyles';
 
 import Avatar from '@material-ui/core/Avatar';
 import {connect} from "react-redux";

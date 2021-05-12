@@ -4,7 +4,7 @@ import useStyles from './MainPageStyles';
 import {Grid, Paper, Box, Typography} from '@material-ui/core';// import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Link from '@material-ui/core/Link';
 import {Link as RouterLink} from 'react-router-dom';
-import UserAvatar from "../../components/Avatar/Avatar";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import {connect} from "react-redux";
 import Hidden from '@material-ui/core/Hidden';
 import Loading from "../../components/Loading/Loading";

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import useStyles from './PostMainStyles';
 import {connect, useSelector} from "react-redux";
 
-import UserAvatar from "../Avatar/Avatar";
+import UserAvatar from "../UserAvatar/UserAvatar";
 import Comment from "../Comment/Comment";
 import { IAddComment, ILikePost, IFavoritePost } from "../Icons/Icons";
 import {updateLikeCounter} from "../../store/posts/actions";
