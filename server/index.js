@@ -159,7 +159,7 @@ app.post('/login',(req,res,next) => {
   const name = req.body.name;
   const password = req.body.password;
 
-  User.findOne({name: name, password: hash(password)}).then(user => {
+  User.findOne({name: name, password: password}).then(user => {
 
     if(!user){
       next(new Error("wrong name or password"))
@@ -170,7 +170,7 @@ app.post('/login',(req,res,next) => {
 
     user.token = token;
     user.save().then(() => {
-      res.json({token: token});
+      res.json({user: user});
     })
 
   })
