@@ -1,0 +1,22 @@
+.user-page {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+}
+.top-user-page{
+  display: flex;
+  padding-bottom: 26px;
+  position: relative;
+}
+.top-user-page::before {
+  content: "";
+  position: absolute;
+  top: 194px;
+  right: 0;
+
+  width: 100%;
+  border-bottom: 2px solid gray;
+  opacity: 0.5;
+}

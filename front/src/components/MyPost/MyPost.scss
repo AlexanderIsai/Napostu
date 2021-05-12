@@ -1,0 +1,22 @@
+.post-item {
+//background-color: blueviolet;
+  width: 300px;
+  height: 300px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+
+}
+.post-item:hover{
+  opacity: 0.5;
+}
+.post-item:hover .likes-comments{
+  display: flex;
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+
+}
