@@ -59,10 +59,12 @@ const Post = mongoose.model("Post",{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     }
-  ]
+  ],
+  likecounter: Number
 });
 
 const Comment = mongoose.model('Comment',{
+  _id: Number,
   text: String,
   date: Date,
   creator: {
