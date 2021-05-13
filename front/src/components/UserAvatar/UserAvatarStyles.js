@@ -45,20 +45,24 @@ const useStyles = makeStyles((theme) => ({
 
   small: {
     position: "inherit",
-    width: theme.spacing(5),
-    height: theme.spacing(5),
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+
   },
 
   medium: {
     position: "inherit",
     width: theme.spacing(9),
     height: theme.spacing(9),
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
   },
 
   large: {
     position: "inherit",
-    width: theme.spacing(13),
-    height: theme.spacing(13),
+    width: theme.spacing(15),
+    height: theme.spacing(15),
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
   },
 }));
 

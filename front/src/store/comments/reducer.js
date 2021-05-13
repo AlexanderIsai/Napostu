@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
             return {...state, isLoading: true}
 
         case LOAD_COMMENTS_SUCCESS:
-            return {...state, isLoading: action.payload}
+            return {...state, isLoading: false}
 
         case SET_COMMENTS:
             return {...state, comments: action.payload}

@@ -15,5 +15,4 @@ export const setPosts = (data) => {
 
 export const updateLikeCounter = (data) => {
   return ({type: UPDATE_LIKE_COUNTER, payload: data});
-
 }
