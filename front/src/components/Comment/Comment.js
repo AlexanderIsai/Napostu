@@ -21,6 +21,11 @@ const Comment = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.commentBox}>
+      {/*<label className={classes.commentLabel}>Your comment:</label>*/}
+
+      {/*<textarea rows={3} className={classes.commentTextArea}  value={value} onChange={handleChange}>*/}
+      {/*</textarea>*/}
+
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="outlined-multiline-flexible"

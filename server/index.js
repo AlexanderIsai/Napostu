@@ -59,10 +59,12 @@ const Post = mongoose.model("Post",{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     }
-  ]
+  ],
+  likecounter: Number
 });
 
 const Comment = mongoose.model('Comment',{
+  _id: Number,
   text: String,
   date: Date,
   creator: {
@@ -177,6 +179,25 @@ app.post('/login',(req,res,next) => {
 
 
 })
+
+
+// ------ update Like Counter for post ----------------------------
+app.post('/updatelike', (req, res) => {
+  const postId = req.body.id;
+  Post.findById(postId).then(post => {
+    console.log("post >>>> ", post);
+
+    console.log("post.likecounter before + >>>> ", post.likecounter);
+    post.likecounter = post.likecounter+1;
+    console.log("post.likecounter after + >>>> ", post.likecounter);
+
+    post.save()
+      .then(() => {
+      res.json({post: post});
+    })
+  })
+});
+
 
 
 app.get('/userfeed',(req,res) => {

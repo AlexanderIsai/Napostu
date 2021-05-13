@@ -1,32 +1,49 @@
 import React, {useEffect} from 'react';
 import useStyles from './PostMainStyles';
-import {connect, useSelector} from "react-redux";
+import {connect} from "react-redux";
 
 import UserAvatar from "../UserAvatar/UserAvatar";
 import Comment from "../Comment/Comment";
-import { IAddComment, ILikePost, IFavoritePost } from "../Icons/Icons";
+import {IAddComment, ILikePost, IFavoritePost} from "../Icons/Icons";
 import {updateLikeCounter} from "../../store/posts/actions";
+import {setIsPostFavorite, setLikeCounter, setPostActive} from "../../store/post/actions";
+import {updateLikeCounterBD} from "../../store/post/operations";
 
 
 const PostMain = (props) => {
-  const {users, posts, user, post} = props;
+  const {post, users, creator, comments} = props;
+  let postCreator = users.find(obj => obj._id === creator);
 
-  let userActive = users.find(obj => obj._id === user);
-  let postActive = post._id;
+  const postComments = [];
+  post.comments.forEach(el => {
+    postComments.push(comments.find(comment => comment._id === el));
+  });
+  // console.log("postActiveID >>> ", post._id,  "postComments[] >>> ", postComments);
 
-  const handleClick1 = (e) => {
+  // useEffect(() => {},[]);
+
+  const handleClickAddComment = (e) => {
     console.log("I open area for comment for this post");
   }
 
-
   const handleClickLikesCounter = (e) => {
-    console.log("I like this post");    // console.log("postActive >> post._id: ", postActive);
-    props.updateLikeCount(postActive);
+    console.log("I like this post!");
+    console.log("postActive >> post._id: ", post._id);
+
+    props.updateLikeCounter(post._id);
+    console.log("afterUpdate >> post.like_counter: ", post.likecounter);
+
+    props.updateLikeCounterBD(post._id);
+
+    props.setPostActive(post._id);
+    props.setLikeCounter(post.likecounter);
   }
 
-  const handleClick3 = (e) => {
+  const handleClickAddFavorite = (e) => {
     console.log("I add to favorite this post");
   }
+
+
 
   const classes = useStyles();
   return (
@@ -34,86 +51,82 @@ const PostMain = (props) => {
 
       <div className={classes.postMainHeader}>
         <div className={classes.postMainHeaderContent}>
-
-          {/*{(userActive) &&*/}
           <div className={classes.postMainHeaderItem}>
             <UserAvatar
               size="small"
-              user={userActive}
+              user={postCreator}
               textLink={true}
               borderAround={true}
             />
           </div>
-          {/*}*/}
 
           <div className={classes.postMainHeaderItem}>
-            <div className={classes.headerDescriptionItem}>
+            <div className={classes.headerDescription}>
               Description: {post.post_description}
             </div>
           </div>
-
         </div>
       </div>
 
 
       <div className={classes.postMainBody}>
-        <div className={classes.postMainBodyContent}>
-
-          <div className={classes.postMainBodyItem}>
-            Photo src: {post.imageUrl}
-          </div>
-
+        <div className={classes.postMainBodyItem}>
+          <img className={classes.bodyImage} id={`${post._id}`} src={post.imageUrl}/>
         </div>
       </div>
 
 
       <div className={classes.postMainFooter}>
         <div className={classes.postMainFooterContent}>
-
           <div className={classes.postMainFooterItem}>
-            <div className={classes.footerLineItem}/>
-          </div>
-
-          <div className={classes.postMainFooterItem}>
-            <div className={classes.footerIconsItem}>
-
-              <ILikePost onClick={ handleClickLikesCounter } />
+            <div className={classes.footerIcons}>
+              <IAddComment onClick={handleClickAddComment} style={{}} />
+              <IFavoritePost onClick={handleClickAddFavorite} />
+              <ILikePost onClick={handleClickLikesCounter} />
               <span className={classes.likeCounter}>
-                {post.like_counter}
+                {post.likecounter} likes
               </span>
-
-              <IFavoritePost onClick={handleClick3} />
-
-              <IAddComment onClick={handleClick1} style={{}}/>
             </div>
           </div>
 
           <div className={classes.postMainFooterItem}>
-            <div className={classes.footerCommentsItem}>
-              <Comment />
-            </div>
+
           </div>
 
+          <div className={classes.postMainFooterItem}>
+            <div className={classes.footerComments}>
+              <Comment/>
+            </div>
+          </div>
         </div>
       </div>
 
-
     </div>
   );
-}
+};
 
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.users.isLoading,
     users: state.users.users,
-    posts: state.posts.posts,
+    userActive: state.auth.userActive,
+
+    postActiveId: state.post.postActiveId,
+    postLikeCounter: state.post.postLikeCounter,
+    postIsFavorite: state.post.postLikeCounter,
+
+    comments: state.comments.comments,
   }
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateLikeCount: (data) => dispatch(updateLikeCounter(data)),
+    updateLikeCounter: (data) => dispatch(updateLikeCounter(data)),
+    updateLikeCounterBD: (data) => dispatch(updateLikeCounterBD(data)),
+
+    setPostActive: (data) => dispatch(setPostActive(data)),
+    setLikeCounter: (data) => dispatch(setLikeCounter(data)),
+
+    // setIsPostFavorite: (data) => dispatch(setIsPostFavorite(data)),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostMain);

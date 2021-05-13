@@ -1,6 +1,11 @@
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    position: "relative",
+  },
+
   wrapper: {
     padding: "0px 24px 0 24px",
     height: "100vh",
@@ -12,13 +17,7 @@ const useStyles = makeStyles((theme) => ({
       "rgba(240,241,242,1) 100%)",
   },
 
-    root: {
-      flexGrow: 1,
-      // background: "red",
-      position: "relative",
-    },
-
-    title: {
+  title: {
       // textAlign: "center",
       fontSize: "2em",
       fontWeight: "500",
@@ -52,6 +51,16 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       fontSize: "0.7em"
     },
+
+  linkToSubscribe:{
+    textDecoration: "none",
+    fontSize: "1em",
+    color: "#3f51b5",
+    fontWeight: "500",
+    lineHeight: "1.08",
+    letterSpacing: "0.027em",
+    margin: 0,
+  },
 
     subscribtionElBoxSticky: {
       position: "sticky",
@@ -175,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "36px",
       marginBottom: 0,
       // marginTop: "6px",
-      height: "420px",
+      height: "458px",
       overflowY: "scroll",
     },
 
