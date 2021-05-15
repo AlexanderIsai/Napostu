@@ -1,7 +1,10 @@
-import {LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, LOAD_USERS_FAILURE} from './types';
+import {LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, LOAD_USERS_FAILURE, UPDATE_SUBSCRIBE_SUCCESS} from './types';
 import axios from "axios";
-import {setUsers} from "./actions";
+import {sendRequestForUpdateSub, setUsers} from "./actions";
 import {useParams} from "react-router-dom";
+import {requestHeaders} from "../../helpers/requests_helper";
+import {sendRequestForUpdateLikeCounter} from "../post/actions";
+import {UPDATE_LIKE_COUNTER_SUCCESS} from "../post/types";
 
 const pathUser = `/userfeed`;
 
@@ -36,3 +39,23 @@ export const getUser =() => (dispatch) => {
             })
         })
 }
+
+export const updateSubDB = (userId, ownId) => (dispatch) => {
+    axios({
+        method: 'POST',
+        url: '/updatesub',
+        data: `id=${userId}&ownId=${ownId}`,
+        headers: requestHeaders
+    }).then( res => {
+        dispatch(sendRequestForUpdateSub());
+        return res;
+    }).then( res => {
+        if(res) {
+            dispatch({type: UPDATE_SUBSCRIBE_SUCCESS})
+        }
+    })
+        .catch(err => {
+            console.log(err);
+
+        });
+};

@@ -10,7 +10,7 @@ const MyPost = (props) => {
     return (
         <div className="post-item" onClick={(e) => props.viewModal(e)}>
             <img id={`${post._id}`} src={post.imageUrl} />
-            <LikesComments />
+            <LikesComments post={post}/>
         </div>
     );
 };
