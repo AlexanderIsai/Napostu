@@ -1,4 +1,6 @@
-import {LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, SET_POSTS, LOAD_POSTS_FAILURE, UPDATE_LIKE_COUNTER} from './types';
+import {
+  LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, SET_POSTS,
+  UPDATE_LIKE_COUNTER, LOAD_POSTS_FAILURE } from './types';
 
 const initialStatePosts = {
   isLoading: true,
@@ -19,7 +21,7 @@ const reducer = (state = initialStatePosts, action) => {
     case UPDATE_LIKE_COUNTER:
       const updatePosts = state.posts.map(el => {
         if (el._id === action.payload) {
-          el.like_counter = ++el.like_counter;
+          ++el.likecounter;
         }
         return el;
       })

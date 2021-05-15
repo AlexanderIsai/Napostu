@@ -8,14 +8,15 @@ import Link from "@material-ui/core/Link";
 
 
 const UserAvatar = (props) => {
-  const {size, user, textLink, borderAround} = props;
+  const {size, user, textLink, borderAround, example=false } = props;
 
   let nickTextLink, userAlt, borderStyle, sizeStyle, boxSizeStyle;
 
-  if (user) {
+  if (!example) {
     nickTextLink = `${user.email}`.substr(0, 1) + `.${user.email}`.split('@')[0];
     userAlt = `${user.email}`.substr(0, 1).toUpperCase() + ` .${user.email}`.split('@')[0];
-    // console.log(user.avatar);
+  } else {
+    nickTextLink = "s.someuser";
   }
 
 
@@ -55,7 +56,6 @@ const UserAvatar = (props) => {
         <Link component={RouterLink} to={`/users/${user._id}`} style={{textDecoration: 'none'}}>
           <div className={borderStyle}>
             <Avatar alt={userAlt} src={user.avatar} className={sizeStyle}/>
-            {/*src="./images/avatars/AliceInWonder.jpg"*/}
           </div>
         </Link>
         {textLink &&

@@ -1,5 +1,4 @@
 import {makeStyles} from "@material-ui/core/styles";
-import {green} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -8,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#ffffff",
   },
 
-
+// ---------------postMain Header-------
   postMainHeader: {
     padding: "4px 4px 0 0",
     background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
@@ -27,38 +26,42 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 8px 0",
   },
 
-  headerDescriptionItem: {
+  headerDescription: {
     color: "#585757",
     fontSize: "1.1em",
   },
 
 
+  // ---------------postMain Body-------
   postMainBody: {
-    height: "500px",
+    // height: "450px",
     padding: "0",
     textAlign: "center",
-  },
-
-  postMainBodyContent: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    borderBottom: "4px solid darkgray"
   },
 
   postMainBodyItem: {
-    // height: "100%",
-    // background: "#eeeeee",
+    // height: "450px",
+    display: "flex",
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  bodyImage: {
+    display: "block",
+    width: "100%",
+    margin: 0
   },
 
 
+// ---------------postMain Footer-------
   postMainFooter: {
     padding: "4px 4px 0",
     textAlign: "left",
     '&::lastChild': {
       textAlign: "center",
     },
-    // borderTop: "1px solid lightgray",
   },
 
   postMainFooterContent: {
@@ -70,30 +73,24 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  footerLineItem: {
-    height: "4px",
-    background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
-      "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
-      "rgba(240,241,242,1) 100%)",
-  },
-
   postMainFooterItem: {
     marginBottom: "8px",
     textAlign: "left",
   },
 
-  footerIconsItem: {},
-
-  likeCounter: {
-    position: "relative",
-    left: "-20px",
-    top: "8px",
-    fontSize: "0.7em",
-    color: "darkgray",
-
+  footerIcons: {
 
   },
-  footerCommentsItem: {},
+
+  likeCounter: {
+    padding: "0 12px",
+    fontSize: "0.9em",
+    color: "darkgray",
+  },
+
+  footerComments: {
+
+  },
 
 
 }));

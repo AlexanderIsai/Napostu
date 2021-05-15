@@ -59,10 +59,12 @@ const Post = mongoose.model("Post",{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     }
-  ]
+  ],
+  likecounter: Number
 });
 
 const Comment = mongoose.model('Comment',{
+  _id: Number,
   text: String,
   date: Date,
   creator: {
@@ -142,23 +144,35 @@ const authMiddleware = (req, res, next) => {
 
 app.post('/getnextposts', (req, res) => {
   const currentPostLength = req.body.currentPostLength;
+  const userActiveId = req.body.userActiveId;
 
-  Post.find().populate().then(posts => {
+  console.log('userActiveId --- ', userActiveId);
+
+  Post.find().populate().then(data => {
+
+    const filteredPosts = data.filter(post => {
+      console.log('post creator --- ', post.creator)
+      return +post.creator === +userActiveId
+    })
+
+    console.log('filtered posts ---- ', filteredPosts)
 
     const response = {
       postsToShow: [],
       hasMore: false
     };
 
-    if (posts.length > +currentPostLength + 4) {
+    if (filteredPosts.length > +currentPostLength + 4) {
       for (let i = 0; i < +currentPostLength + 3; i++) {
-        response.postsToShow.push(posts[i])
+        response.postsToShow.push(filteredPosts[i])
       }
       response.hasMore = true;
+      console.log('response from server hasmoreposts --- ', res);
       res.json(response);
     } else {
-      response.postsToShow = posts;
+      response.postsToShow = filteredPosts;
       response.hasMore = false;
+      console.log('response from server hasNOmoreposts --- ', res);
       res.json(response);
     }
     
@@ -205,6 +219,25 @@ app.post('/login',(req,res,next) => {
 
 
 })
+
+
+// ------ update Like Counter for post ----------------------------
+app.post('/updatelike', (req, res) => {
+  const postId = req.body.id;
+  Post.findById(postId).then(post => {
+    console.log("post >>>> ", post);
+
+    console.log("post.likecounter before + >>>> ", post.likecounter);
+    post.likecounter = post.likecounter+1;
+    console.log("post.likecounter after + >>>> ", post.likecounter);
+
+    post.save()
+      .then(() => {
+      res.json({post: post});
+    })
+  })
+});
+
 
 
 app.get('/userfeed',(req,res) => {
