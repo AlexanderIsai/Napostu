@@ -25,6 +25,10 @@ const MainPage = (props) => {
 
   const classes = useStyles();
 
+  useEffect(() => {
+    getNextPosts()
+  }, []);
+
   if (isLoading) {
     return (<Loading/>)
   }
@@ -34,15 +38,13 @@ const MainPage = (props) => {
   // }
 
   function getNextPosts() {
-    console.log('getnextposts function');
     axios({
       method: 'post',
       url: '/getnextposts',
       data: `currentPostLength=${postsToShow.length}`,
     })
     .then(res => {
-      console.log('res.data in getnextposts function ---- ', res.data)
-     setPostsToShow(res.data.postsToReturn);
+     setPostsToShow(res.data.postsToShow);
      setHasMorePosts(res.data.hasMore);
     })
     .catch(err => {
@@ -112,31 +114,19 @@ const MainPage = (props) => {
               <Box className={classes.postsLine}>
                 <p className={classes.smallTitlePostsLine} style={{}}>news</p>
 
-                {/* {
-                  posts.map((el, id) => {
-                    return (
-                      <Paper className={classes.post} key={id} style={{}}>
-                        <PostMain
-                          user={+el.creator}
-                          post={el}
-                        />
-                      </Paper>
-                    )
-                  })
-                } */}
-
                 <InfiniteScroll
-                          dataLength={postsToShow.length}
-                          next={getNextPosts}
-                          hasMore={hasMorePosts}
-                          loader={<h4>Loading...</h4>}
-                          scrollableTarget="scrollableDiv"
-                          endMessage={
-                            <p style={{ textAlign: "center" }}>
-                              <b>Yay! You have seen all posts</b>
-                            </p>
-                          }
-                        >
+                  dataLength={postsToShow.length}
+                  next={getNextPosts}
+                  hasMore={hasMorePosts}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                  scrollThreshold="250px"
+                  endMessage={
+                    <p style={{ textAlign: "center" }}>
+                      <b>Yay! You have seen all posts</b>
+                    </p>
+                  }
+                >
                           
                   { postsToShow.map((el, id) => {
                     return (
