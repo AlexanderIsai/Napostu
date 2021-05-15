@@ -10,7 +10,7 @@ const Modal = (props) =>{
         return (
             <div className="modal" onClick={(e)=>props.closeModal(e)}>
                         <div className="post-active">
-                                <img src={props.urlPost}/>
+                                <div className="post-active__image"> <img className='modal-image' src={props.urlPost}/></div>
                                 <PostContent postId={props.modalPostId}/>
                         </div>
             </div>

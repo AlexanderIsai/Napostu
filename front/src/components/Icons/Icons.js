@@ -45,6 +45,7 @@ export const IFavoritePost = (props) => {
   )
 };
 
+
 export const IAddComment = (props) => {
   const {onClick} = props;
   const handleClick = () => {

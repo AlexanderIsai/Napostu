@@ -1,29 +1,26 @@
 import React from 'react';
 import useStyles from './AppStyles';
-
-import {useEffect} from 'react';
 import {connect} from 'react-redux';
-
-import {getUsers} from "./store/users/operations";
-
+import {useEffect} from 'react';
 import Loading from "./components/Loading/Loading";
-
-import Body from "./components/Body/Body";
-
 import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
+
+
+import {getUsers} from "./store/users/operations";
 import {getPosts} from "./store/posts/operations";
 import {getComments} from "./store/comments/operations";
 
 
 const App = (props) => {
-  const {users, isLoading, posts, getUsers, getPosts, getComments, comments} = props;
+  const {isLoading, getUsers, getPosts, getComments, users} = props;
 
   useEffect(() => {
     getUsers()
     getPosts()
     getComments()
   }, [getUsers, getPosts, getComments]);
+
 
 
 
@@ -63,24 +60,20 @@ const App = (props) => {
   }
 
 
+
   const classes = useStyles();
 
   if (isLoading) {
-    return (<Loading/>)
+    return (<Loading />)
   }
 
   return (
     <div className={classes.root}>
       <Header />
-
-      {/*<Body userActive = {userActive} />*/}
-      <Body />
-
       <AppRoutes />
-
     </div>
   );
-}
+};
 
 
 const mapStateToProps = (state) => {
@@ -91,14 +84,11 @@ const mapStateToProps = (state) => {
     comments: state.comments.comments
   }
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers: () => dispatch(getUsers()),
     getPosts: () => dispatch(getPosts()),
     getComments: () => dispatch(getComments())
-
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(App);
