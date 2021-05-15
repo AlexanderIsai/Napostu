@@ -138,6 +138,50 @@ const authMiddleware = (req, res, next) => {
 
 }
 
+
+
+app.post('/getnextposts', (req, res) => {
+  const currentPostLength = req.body.currentPostLength;
+  console.log('/getnextposts, currentPostLength --- ', currentPostLength)
+
+
+  Post.find().populate().then(posts => {
+
+    const response = {
+      postsToReturn: [],
+      hasMore: false
+    };
+
+    if (posts.length > +currentPostLength + 4) {
+      for (let i = 0; i < +currentPostLength + 3; i++) {
+        response.postsToReturn.push(posts[i])
+      }
+      response.hasMore = true;
+      console.log('response --- ', response);
+      res.json(response);
+    } else {
+      const postsLengthToReturn = +currentPostLength + (+posts.length - +currentPostLength);
+      console.log('postsLengthToReturn ---- ', postsLengthToReturn);
+
+      // for (let i = 0; i < +postsLengthToReturn; i++) {
+      //   response.postsToReturn.push(posts[i]);
+      //   console.log('postsToReturn.length --- ', postsToReturn.length);
+      //   console.log('before ending posts !!!!!')
+       
+      // }
+      
+      response.postsToReturn = posts;
+      response.hasMore = false;
+      console.log('response before sending to front ---- ', response);
+      res.json(response);
+    }
+    
+  })
+
+  
+
+})
+
 app.post('/signup',(req,res) => {
   const name = req.body.name;
   const password = req.body.password;

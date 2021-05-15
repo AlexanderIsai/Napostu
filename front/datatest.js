@@ -104,5 +104,5 @@ Post.findOne().then(posts => {
 })
 
 User.find().then(users => {
-    console.log(users);
+    // console.log(users);
 })

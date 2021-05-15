@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
     postsLine: {
       marginBottom: "24px",
+      overflow: "scroll"
     },
 
     post: {

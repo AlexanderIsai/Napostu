@@ -15,17 +15,17 @@ const PostMain = (props) => {
   let postActive = post._id;
 
   const handleClick1 = (e) => {
-    console.log("I open area for comment for this post");
+    // console.log("I open area for comment for this post");
   }
 
 
   const handleClickLikesCounter = (e) => {
-    console.log("I like this post");    // console.log("postActive >> post._id: ", postActive);
+    // console.log("I like this post");    // console.log("postActive >> post._id: ", postActive);
     props.updateLikeCount(postActive);
   }
 
   const handleClick3 = (e) => {
-    console.log("I add to favorite this post");
+    // console.log("I add to favorite this post");
   }
 
   const classes = useStyles();

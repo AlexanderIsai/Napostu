@@ -9,7 +9,7 @@ import MainPage from "../../pages/MainPage/MainPage";
 
 const Body = (props) => {
   const {userActive} = props;
-  console.log("userActive (from Body.js) : ", userActive);
+  // console.log("userActive (from Body.js) : ", userActive);
 
   const classes = useStyles();
   return (

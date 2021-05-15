@@ -14,7 +14,7 @@ export const showModal = (e) =>(dispatch) => {
     let cursorTarget = e.target
     dispatch(setUrl(cursorTarget.src))
     dispatch(setModalPostId(cursorTarget.id))
-    console.log(cursorTarget.id);
+    // console.log(cursorTarget.id);
     dispatch(openModal( true))
 }
 

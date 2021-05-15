@@ -15,7 +15,7 @@ const UserAvatar = (props) => {
   if (user) {
     nickTextLink = `${user.email}`.substr(0, 1) + `.${user.email}`.split('@')[0];
     userAlt = `${user.email}`.substr(0, 1).toUpperCase() + ` .${user.email}`.split('@')[0];
-    console.log(user.avatar);
+    // console.log(user.avatar);
   }
 
 

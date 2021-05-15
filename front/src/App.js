@@ -51,10 +51,10 @@ const App = (props) => {
   // ----- если с сервера прилетел users undefined -----
   // let ind, userActive;
   if (!props.users[0]) {
-    console.log("No users from server");    // throw new Error();
+    // console.log("No users from server");    // throw new Error();
   } else {
-    console.log("users from redux state: ", users);
-    console.log("posts from redux state: ", posts);
+    // console.log("users from redux state: ", users);
+    // console.log("posts from redux state: ", posts);
     // ind = users.findIndex(obj => obj._id === 1);
     // console.log("userActive ID : ", ind);
     // console.log("userActive : ", users[ind]);

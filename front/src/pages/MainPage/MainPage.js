@@ -1,5 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import useStyles from './MainPageStyles';
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {Grid, Paper, Box, Typography} from '@material-ui/core';// import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Link from '@material-ui/core/Link';
@@ -11,7 +14,12 @@ import Loading from "../../components/Loading/Loading";
 import PostMain from "../../components/PostMain/PostMain";
 
 const MainPage = (props) => {
+
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+
   const {isLoading, users, posts, userActive} = props;
+  
 
   const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
@@ -25,11 +33,28 @@ const MainPage = (props) => {
   //   return
   // }
 
+  function getNextPosts() {
+    console.log('getnextposts function');
+    axios({
+      method: 'post',
+      url: '/getnextposts',
+      data: `currentPostLength=${postsToShow.length}`,
+    })
+    .then(res => {
+      console.log('res.data in getnextposts function ---- ', res.data)
+     setPostsToShow(res.data.postsToReturn);
+     setHasMorePosts(res.data.hasMore);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
 
   return (
     <>
       <div className={classes.root}>
-        <div className={classes.wrapper}>
+        <div id='scrollableDiv' className={classes.wrapper}>
           <div style={
             {
               background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
@@ -87,7 +112,7 @@ const MainPage = (props) => {
               <Box className={classes.postsLine}>
                 <p className={classes.smallTitlePostsLine} style={{}}>news</p>
 
-                {
+                {/* {
                   posts.map((el, id) => {
                     return (
                       <Paper className={classes.post} key={id} style={{}}>
@@ -98,7 +123,35 @@ const MainPage = (props) => {
                       </Paper>
                     )
                   })
-                }
+                } */}
+
+                <InfiniteScroll
+                          dataLength={postsToShow.length}
+                          next={getNextPosts}
+                          hasMore={hasMorePosts}
+                          loader={<h4>Loading...</h4>}
+                          scrollableTarget="scrollableDiv"
+                          endMessage={
+                            <p style={{ textAlign: "center" }}>
+                              <b>Yay! You have seen all posts</b>
+                            </p>
+                          }
+                        >
+                          
+                  { postsToShow.map((el, id) => {
+                    return (
+                      <Paper className={classes.post} key={id} style={{}}>
+                        <PostMain
+                          user={+el.creator}
+                          post={el}
+                        />
+                      </Paper>
+                    )
+                  })
+                }    
+                </InfiniteScroll>
+
+
               </Box>
             </Grid>
 
