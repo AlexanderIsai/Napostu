@@ -12,8 +12,6 @@ export const authenticate = (email, password) => (dispatch) => {
       .then(res => {
          dispatch({type: SET_USER_ACTIVE, payload: res.data.user})
          localStorage.setItem('token', res.data.user.token);
-         console.log(requestHeaders);
-          console.log(res.data);
       })
       .catch(err => {
         console.log(err);
@@ -21,7 +19,6 @@ export const authenticate = (email, password) => (dispatch) => {
 }
 
 export const handleReload = (token) => (dispatch) => {
-  console.log('toke in handlereload --- ', token);
   axios({
     method: 'post',
     url: '/reload',
@@ -29,7 +26,8 @@ export const handleReload = (token) => (dispatch) => {
     headers: requestHeaders
   })
   .then(res => {
-     dispatch({type: SET_USER_ACTIVE, payload: res.data.user})
+    dispatch({type: SET_USER_ACTIVE, payload: res.data.user})
+    localStorage.setItem('token', res.data.user.token);
   })
   .catch(err => {
     console.log(err);

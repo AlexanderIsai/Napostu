@@ -7,7 +7,7 @@ router.get('/users',(req,res) => {
 
   User.find().populate().then(users => {
     res.json(users);
-    console.log("USERS: ", users);
+    // console.log("USERS: ", users);
   })
 
 });
@@ -19,7 +19,7 @@ router.get('/user',(req,res) => {
 
   User.findOne({_id: id}).then(user => {
     res.json(user);
-    console.log("USERS: ", user);
+    // console.log("USERS: ", user);
   })
 
 });
@@ -60,7 +60,7 @@ router.post('/user',(req,res) => {
     likes: userData.likes,
   })
   UserN.save().then(() => {
-    console.log("done");
+    // console.log("done");
   })
 
 

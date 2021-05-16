@@ -1,21 +1,35 @@
-import React from 'react';
-import './MainPage.scss';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import useStyles from './MainPageStyles';
 
-import {connect} from "react-redux";
-import {Grid, Paper, Box} from '@material-ui/core';
-import Hidden from '@material-ui/core/Hidden';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import {Grid, Paper, Box} from '@material-ui/core';// import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Link from '@material-ui/core/Link';
 import {Link as RouterLink} from 'react-router-dom';
-import Loading from "../../components/Loading/Loading";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import './MainPage.scss';
+
+
+import {connect} from "react-redux";
+
+import Hidden from '@material-ui/core/Hidden';
+
+
+import Loading from "../../components/Loading/Loading";
+
 import PostMain from "../../components/PostMain/PostMain";
 
 
 const MainPage = (props) => {
-  const {isLoading, users, posts, userActive} = props;
 
-  const subscriptions = [], toSubscribe = [], actualPost = [];
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+
+  const {isLoading, users, posts, userActive} = props;
+  
+
+  const subscriptions = [], toSubscribe = [];
   userActive.subscriptions.forEach(el => {
     subscriptions.push(users.find(user => user._id === el));
   });
@@ -23,11 +37,6 @@ const MainPage = (props) => {
   users.forEach(user => {
     if (user._id !== userActive._id && !subscriptions.find(obj => obj._id === user._id))
       toSubscribe.push(user);
-  });
-
-  posts.forEach(post => {
-    if (post.creator === userActive._id || subscriptions.find(obj => obj._id === post.creator))
-      actualPost.push(post);
   });
 
   // console.log("USERS:", users);
@@ -38,7 +47,25 @@ const MainPage = (props) => {
 
   const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
+  useEffect(() => {
+    getNextPosts()
+  }, []);
 
+  function getNextPosts() {
+    axios({
+      method: 'post',
+      url: '/getnextposts',
+      data: `currentPostLength=${postsToShow.length}&userActiveId=${userActive._id}&subscriptions=${userActive.subscriptions}`,
+    })
+    .then(res => {
+     setPostsToShow(res.data.postsToShow);
+     setHasMorePosts(res.data.hasMore);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+  
   const classes = useStyles();
   if (isLoading) {
     return (<Loading/>)
@@ -46,7 +73,7 @@ const MainPage = (props) => {
   return (
     <>
       <div className={classes.root}>
-        <div className={classes.wrapper}>
+        <div id='scrollableDiv' className={classes.wrapper}>
           <Hidden only={['xs', 'sm']}>
             <div style={
               {
@@ -59,6 +86,7 @@ const MainPage = (props) => {
             </div>
           </Hidden>
           {/*<img width={"6%"} style={{position: 'fixed', top: "5px", left: "20px"}} alt="logoNaPost" src="LogoNaPOSTu.png" className="logoNaPostu"/>*/}
+
 
 
           <Grid container spasing={0}>
@@ -109,8 +137,22 @@ const MainPage = (props) => {
 
               <Box className={classes.postsLine}>
                 <p className={classes.smallTitlePostsLine} style={{}}>news</p>
-                {
-                  actualPost.map((el, id) => {
+
+                <InfiniteScroll
+                  dataLength={postsToShow.length}
+                  next={getNextPosts}
+                  hasMore={hasMorePosts}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                  scrollThreshold="250px"
+                  endMessage={
+                    <p style={{ textAlign: "center" }}>
+                      <b>Yay! You have seen all posts...</b>
+                    </p>
+                  }
+                >
+                          
+                  { postsToShow.map((el, id) => {
                     return (
                       <Paper className={classes.post} key={id} style={{}}>
                         <PostMain
@@ -120,7 +162,10 @@ const MainPage = (props) => {
                       </Paper>
                     )
                   })
-                }
+                }    
+                </InfiniteScroll>
+
+
               </Box>
             </Grid>
 
