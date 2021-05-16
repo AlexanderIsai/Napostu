@@ -222,6 +222,26 @@ app.post('/login',(req,res,next) => {
 
 })
 
+app.post('/reload', (req, res, next) => {
+  const token = req.body.token;
+
+  User.findOne({token: token}).then(user => {
+
+    if(!user){
+      next(new Error("wrong token"))
+    }
+
+    const token = hash(user._id + new Date());
+
+    user.token = token;
+    user.save().then(() => {
+      res.json({user: user});
+    })
+
+  })
+
+})
+
 
 // ------ update Like Counter for post ----------------------------
 app.post('/updatelike', (req, res) => {
