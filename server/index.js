@@ -27,17 +27,19 @@ const User = mongoose.model('User',{
   _id: Number,
   nickname: String,
   email: String,
-  avatarUrl: String,
+  avatar: String,
   password: { type: String, select: false },
   token: { type: String, select: false },
-  subscribers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
-  subscriptions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
+  subscribers: [],
+  //     [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // }],
+  subscriptions: [],
+  //     [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // }],
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
@@ -58,6 +60,12 @@ const Post = mongoose.model("Post",{
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
+    }
+  ],
+  likers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     }
   ],
   likecounter: Number
@@ -232,7 +240,45 @@ app.post('/updatelike', (req, res) => {
   })
 });
 
+// ------ update Array of Subscriptions for post ----------------------------
+app.post('/updatesub', (req, res) => {
+  const activeUserId = req.body.id;
+  const ownerPageId = req.body.ownId;
 
+
+  User.findById(activeUserId).then(user => {
+    console.log("userActive subscriptions >>>> ", user.subscriptions);
+    console.log(ownerPageId);
+    if (user.subscriptions.includes(ownerPageId)){
+      let indexToDel = user.subscriptions.indexOf(ownerPageId)
+      console.log(indexToDel);
+      user.subscriptions.splice(indexToDel, 1)
+    } else {
+      user.subscriptions.push(+ownerPageId)
+    }
+    console.log("userActive subscriptions AFTER >>>> ", user.subscriptions);
+    user.save()
+        .then(() => {
+          res.json({user: user});
+        })
+  })
+    User.findById(ownerPageId).then(user => {
+      console.log(user.subscribers);
+      if (user.subscribers.includes(activeUserId)){
+      let indexToDel = user.subscribers.indexOf(activeUserId)
+      user.subscribers.splice(indexToDel, 1)
+    } else {
+      user.subscribers.push(+activeUserId)
+    }
+
+      console.log("Owner subscribers >>>> ", user.subscribers);
+
+    user.save()
+        .then(() => {
+          res.json({user: user});
+        })
+  })
+});
 
 app.get('/userfeed',(req,res) => {
 

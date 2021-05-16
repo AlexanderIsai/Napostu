@@ -21,7 +21,7 @@ export const showModal = (e) =>(dispatch) => {
 
 
 export const hideModal = (e) => (dispatch) =>  {
-    if (e.currentTarget.classList.contains('modal')) {
+    if (e.target.classList.contains('modal')) {
         dispatch(closeModal( false))
     }
 }
