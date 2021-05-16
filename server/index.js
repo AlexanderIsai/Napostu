@@ -148,6 +148,40 @@ const authMiddleware = (req, res, next) => {
 
 }
 
+
+
+app.post('/getnextposts', (req, res) => {
+  const currentPostLength = req.body.currentPostLength;
+  const userActiveId = req.body.userActiveId;
+
+  Post.find().populate().then(data => {
+
+    const filteredPosts = data.filter(post => {
+      
+      return +post.creator === +userActiveId || req.body.subscriptions.includes(post.creator)
+    })
+
+    const response = {
+      postsToShow: [],
+      hasMore: false
+    };
+
+    if (filteredPosts.length > +currentPostLength + 4) {
+      for (let i = 0; i < +currentPostLength + 3; i++) {
+        response.postsToShow.push(filteredPosts[i])
+      }
+      response.hasMore = true;
+      res.json(response);
+    } else {
+      response.postsToShow = filteredPosts;
+      response.hasMore = false;
+      res.json(response);
+    }
+    
+  })
+
+})
+
 app.post('/signup',(req,res) => {
   const name = req.body.name;
   const password = req.body.password;

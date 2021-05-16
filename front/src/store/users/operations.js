@@ -33,7 +33,7 @@ export const getUser =() => (dispatch) => {
         .then(res => {
             res.data.forEach(user => {
                 if (user._id == userId) {
-                    console.log(user);
+                    // console.log(user);
                     return user
                 }
             })

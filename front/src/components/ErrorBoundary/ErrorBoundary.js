@@ -30,8 +30,8 @@ class ErrorBoundary extends React.Component {
     const {children} = this.props;
 
     if (hasError) {
-      console.log("hasError: ", error);
-      console.log("component threw the error: ", errorInfo);
+      // console.log("hasError: ", error);
+      // console.log("component threw the error: ", errorInfo);
       return (
         <div className="error-boundary">
           <div className="error-boundary">an error occurred!</div>
