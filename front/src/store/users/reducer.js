@@ -2,8 +2,7 @@ import {LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, SET_USERS, LOAD_USERS_FAILURE} f
 
 const initialState = {
   isLoading: true,
-  users: [],
-
+  users: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,8 +18,6 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_USERS_FAILURE:
       return {...state, users: action.payload}
-
-
 
     default:
       return state;

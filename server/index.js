@@ -278,9 +278,6 @@ app.post('/updatesub', (req, res) => {
     }
     console.log("userActive subscriptions AFTER >>>> ", user.subscriptions);
     user.save()
-        // .then(() => {
-        //   res.json({user: user});
-        // })
   })
     User.findById(ownerPageId).then(user => {
       console.log(user.subscribers);
@@ -290,9 +287,7 @@ app.post('/updatesub', (req, res) => {
     } else {
       user.subscribers.push(+activeUserId)
     }
-
       console.log("Owner subscribers >>>> ", user.subscribers);
-
     user.save()
         .then(() => {
           res.json({user: user});
