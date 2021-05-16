@@ -224,9 +224,9 @@ app.post('/updatesub', (req, res) => {
     }
     console.log("userActive subscriptions AFTER >>>> ", user.subscriptions);
     user.save()
-        .then(() => {
-          res.json({user: user});
-        })
+        // .then(() => {
+        //   res.json({user: user});
+        // })
   })
     User.findById(ownerPageId).then(user => {
       console.log(user.subscribers);

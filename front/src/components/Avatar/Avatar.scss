@@ -1,9 +1,10 @@
 .avatar {
-
+  border: 2px double darkgray;
+  border-radius: 50%;
+  overflow: hidden;
 
 }
 .avatar-img {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
 }

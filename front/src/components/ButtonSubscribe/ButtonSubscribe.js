@@ -6,15 +6,14 @@ import {updateSubDB} from "../../store/users/operations";
 
 const ButtonSubscribe = (props) => {
     const {owner} = props
-    const title1 = "Subscribe"
-    let title = "Subscribe";
+    let title = "Підписатись";
     if (props.userActive.subscriptions.includes(owner._id)) {
-        title = "Unsubscribe"
+        title = "Відписатись"
     }
 
     return (
         <div>
-            <button className="button-subscribe" onClick={()=>props.updateSubDB(props.userActive._id, owner._id)}>{title}</button>
+            <input type='button' className="button-subscribe" onClick={(e)=>props.updateSubDB(e, props.userActive._id, owner._id)} value={title}/>
         </div>
     );
 };
@@ -28,7 +27,7 @@ const mapStateToProps =(state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateSubDB: (a, b) => dispatch(updateSubDB(a, b))
+        updateSubDB: (e, a, b) => dispatch(updateSubDB(e, a, b))
     }
 }
 

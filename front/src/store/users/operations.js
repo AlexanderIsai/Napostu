@@ -40,7 +40,15 @@ export const getUser =() => (dispatch) => {
         })
 }
 
-export const updateSubDB = (userId, ownId) => (dispatch) => {
+export const updateSubDB = (e, userId, ownId) => (dispatch) => {
+    console.log(e.target.value);
+    if (e.target.value === "Підписатись"){
+        e.target.value = "Відписатись"
+    } else {
+        e.target.value = "Підписатись"
+
+    }
+
     axios({
         method: 'POST',
         url: '/updatesub',
