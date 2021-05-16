@@ -146,16 +146,12 @@ app.post('/getnextposts', (req, res) => {
   const currentPostLength = req.body.currentPostLength;
   const userActiveId = req.body.userActiveId;
 
-  console.log('userActiveId --- ', userActiveId);
-
   Post.find().populate().then(data => {
 
     const filteredPosts = data.filter(post => {
-      console.log('post creator --- ', post.creator)
-      return +post.creator === +userActiveId
+      
+      return +post.creator === +userActiveId || req.body.subscriptions.includes(post.creator)
     })
-
-    console.log('filtered posts ---- ', filteredPosts)
 
     const response = {
       postsToShow: [],
@@ -167,12 +163,10 @@ app.post('/getnextposts', (req, res) => {
         response.postsToShow.push(filteredPosts[i])
       }
       response.hasMore = true;
-      console.log('response from server hasmoreposts --- ', res);
       res.json(response);
     } else {
       response.postsToShow = filteredPosts;
       response.hasMore = false;
-      console.log('response from server hasNOmoreposts --- ', res);
       res.json(response);
     }
     

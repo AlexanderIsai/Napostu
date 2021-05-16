@@ -29,7 +29,7 @@ const MainPage = (props) => {
   const {isLoading, users, posts, userActive} = props;
   
 
-  const subscriptions = [], toSubscribe = [], actualPost = [];
+  const subscriptions = [], toSubscribe = [];
   userActive.subscriptions.forEach(el => {
     subscriptions.push(users.find(user => user._id === el));
   });
@@ -37,11 +37,6 @@ const MainPage = (props) => {
   users.forEach(user => {
     if (user._id !== userActive._id && !subscriptions.find(obj => obj._id === user._id))
       toSubscribe.push(user);
-  });
-
-  posts.forEach(post => {
-    if (post.creator === userActive._id || subscriptions.find(obj => obj._id === post.creator))
-      actualPost.push(post);
   });
 
   // console.log("USERS:", users);
@@ -60,7 +55,7 @@ const MainPage = (props) => {
     axios({
       method: 'post',
       url: '/getnextposts',
-      data: `currentPostLength=${postsToShow.length}&userActiveId=${props.userActive._id}`,
+      data: `currentPostLength=${postsToShow.length}&userActiveId=${userActive._id}&subscriptions=${userActive.subscriptions}`,
     })
     .then(res => {
      setPostsToShow(res.data.postsToShow);
@@ -152,14 +147,12 @@ const MainPage = (props) => {
                   scrollThreshold="250px"
                   endMessage={
                     <p style={{ textAlign: "center" }}>
-                      <b>Yay! You have seen all posts</b>
+                      <b>Yay! You have seen all posts...</b>
                     </p>
                   }
                 >
                           
                   { postsToShow.map((el, id) => {
-                // {
-                //   actualPost.map((el, id) => {
                     return (
                       <Paper className={classes.post} key={id} style={{}}>
                         <PostMain
