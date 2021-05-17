@@ -200,15 +200,19 @@ function PrimarySearchAppBar(props) {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
+    <div className={classes.grow} >
+      <AppBar position="static" style={{maxWidth: "1280px", margin: "0 auto", padding: "0"}}>
         <Toolbar>
-
-          <NavLink className={classes.navLink} to='/main'>
-              NaPOSTU
+          <NavLink style={{paddingLeft: "66px"}} className={classes.navLink} to='/main'>
+            <div style={{width: "54px", height: "54px", position: 'absolute', top: "2px", left: "27px", padding: "1px"}}>
+              <img style={{width: "100%"}} alt="logoNaPostu" src="LogoNP(mine).png" className="logoNaPostu"/>
+            </div>
+            <div style={{ width: "150px", position: 'absolute', top: "18px", left: "90px"}}>
+              <img style={{ width: "100%"}} alt="logoNaPostu" src="LogoNPtxt.png"/>
+            </div>
           </NavLink>
           
-           <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
+           <div className={classes.grow} />  {/* для размещения поиска по центру*/}
 
           {userActive && <div className={classes.search}>
             <div className={classes.searchIcon}>
