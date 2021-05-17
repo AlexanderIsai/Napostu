@@ -1,4 +1,5 @@
-import {SET_POSTS, UPDATE_LIKE_COUNTER} from './types';
+import {SET_POSTS, SET_IS_POST_FAVORITE, UPDATE_LIKE_COUNTER, SHOW_HIDE_COMMENTS} from './types';
+
 
 export const setPosts = (data) => {
   data.sort((a, b) =>{
@@ -11,8 +12,19 @@ export const setPosts = (data) => {
   });
 
   return ({type: SET_POSTS, payload: data});
+};
+
+
+export const setIsPostFavorite = (data) => {
+  return ({type: SET_IS_POST_FAVORITE, payload: data});
 }
 
-export const updateLikeCounter = (data) => {
-  return ({type: UPDATE_LIKE_COUNTER, payload: data});
+
+export const updateLikeCounter = (postId, userAct) => {
+  return ({type: UPDATE_LIKE_COUNTER, payload: {"postId": postId, "userAct": userAct} });
+};
+
+
+export const showHideComments = (data) => {
+  return ({type: SHOW_HIDE_COMMENTS, payload: data});
 }

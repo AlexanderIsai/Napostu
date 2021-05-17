@@ -1,8 +1,8 @@
 import React from 'react';
 import useStyles from './UserAvatarStyles';
+import {connect} from "react-redux";
 
 import Avatar from '@material-ui/core/Avatar';
-import {connect} from "react-redux";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@material-ui/core/Link";
 

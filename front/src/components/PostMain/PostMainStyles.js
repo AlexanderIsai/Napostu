@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
 
-  // ---------------postMain Body-------
+// ---------------postMain Body-------
   postMainBody: {
     // height: "450px",
     padding: "0",
@@ -55,43 +55,54 @@ const useStyles = makeStyles((theme) => ({
   },
 
 
-// ---------------postMain Footer-------
+// --------------- postMain Footer -------
   postMainFooter: {
-    padding: "4px 4px 0",
-    textAlign: "left",
-    '&::lastChild': {
-      textAlign: "center",
-    },
-  },
-
-  postMainFooterContent: {
     height: "100%",
     display: "flex",
-    flexDirection: "column",
     alignItems: "stretch",
-    textAlign: "center",
-
+    flexDirection: "column",
   },
 
-  postMainFooterItem: {
-    marginBottom: "8px",
-    textAlign: "left",
-  },
-
+  //-----------------------------------------
   footerIcons: {
-
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    overflow: "scroll",
   },
 
+  //-----------------------------------------
   likeCounter: {
-    padding: "0 12px",
+    padding: "0 38px 0 0",
     fontSize: "0.9em",
     color: "darkgray",
+    overflow: "scroll",
+    lineHeight: "0.8",
   },
 
+  likeCounterAfter: {
+    fontSize: "0.7em",
+    marginLeft: "4px"
+  },
+
+  //-----------------------------------------
   footerComments: {
-
+    paddingTop: "4px",
+    paddingBottom: "10px",
+    textAlign: "left",
+    overflow: "scroll",
   },
 
+  //-----------------------------------------
+  footerAddComments: {
+    width: "100%",
+    margin: "8px 0 0",
+    display:"flex",
+    background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
+      "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
+      "rgba(240,241,242,1) 100%)",
+  },
 
 }));
 

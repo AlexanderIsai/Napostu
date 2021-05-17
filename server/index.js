@@ -1,6 +1,5 @@
-
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const {Schema} = mongoose;
 const express = require('express')
 const bodyParser = require('body-parser')
 const fs = require('fs');
@@ -8,36 +7,39 @@ const app = express()
 const port = 5000;
 
 
-
-
-function hash(data){
+function hash(data) {
   return require("crypto")
-      .createHash("sha256")
-      .update(data)
-      .digest("hex");
+    .createHash("sha256")
+    .update(data)
+    .digest("hex");
 }
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(express.static(__dirname + "/public"))
 
-mongoose.connect('mongodb+srv://naPostu:naPostu999@testcluster10.1e1vj.mongodb.net/naPOSTUdb', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://naPostu:naPostu999@testcluster10.1e1vj.mongodb.net/naPOSTUdb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
-const User = mongoose.model('User',{
+const User = mongoose.model('User', {
   _id: Number,
   nickname: String,
   email: String,
-  avatarUrl: String,
-  password: { type: String, select: false },
-  token: { type: String, select: false },
-  subscribers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
-  subscriptions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
+  avatar: String,
+  password: {type: String, select: false},
+  token: {type: String, select: false},
+  subscribers: [],
+  //     [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // }],
+  subscriptions: [],
+  //     [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // }],
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
@@ -45,7 +47,7 @@ const User = mongoose.model('User',{
 });
 
 
-const Post = mongoose.model("Post",{
+const Post = mongoose.model("Post", {
   _id: Number,
   imageUrl: String,
   post_description: String,
@@ -54,16 +56,24 @@ const Post = mongoose.model("Post",{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
-    }
-  ],
+  comments: [],
+  // comments: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Comment",
+  //   }
+  // ],
+  likers: [],
+  // likers: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "User",
+  //   }
+  // ],
   likecounter: Number
 });
 
-const Comment = mongoose.model('Comment',{
+const Comment = mongoose.model('Comment', {
   _id: Number,
   text: String,
   date: Date,
@@ -79,7 +89,7 @@ const Comment = mongoose.model('Comment',{
 
 //Добавляем нового юзера
 Post.find().populate('post').then(posts => {
-  const testUser = new User ({
+  const testUser = new User({
     _id: 7,
     nickname: "Vikusya",
     email: "vikusya@test.ua",
@@ -99,7 +109,7 @@ Post.find().populate('post').then(posts => {
 
 User.findById(1).then(user => {
   Comment.findOne().then(comments => {
-    const testPost = new Post ({
+    const testPost = new Post({
       _id: 103,
       imageUrl: "urlIMG",
       post_description: "Here is posttext3 from ivanov id 1",
@@ -115,7 +125,7 @@ User.findById(1).then(user => {
 
 const authMiddleware = (req, res, next) => {
 
-  if(!req.headers.authorization){
+  if (!req.headers.authorization) {
     const err = new Error("Not authorized!");
     err.status = 403;
     return next(err);
@@ -123,7 +133,7 @@ const authMiddleware = (req, res, next) => {
 
   User.findOne({token: req.headers.authorization}).then(user => {
 
-    if(!user){
+    if (!user) {
       const err = new Error("Not authorized!");
       err.status = 403;
       return next(err);
@@ -137,10 +147,9 @@ const authMiddleware = (req, res, next) => {
   });
 
 
-
 }
 
-app.post('/signup',(req,res) => {
+app.post('/signup', (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
 
@@ -156,14 +165,14 @@ app.post('/signup',(req,res) => {
 
 })
 
-app.post('/login',(req,res,next) => {
+app.post('/login', (req, res, next) => {
 
   const name = req.body.name;
   const password = req.body.password;
 
   User.findOne({name: name, password: password}).then(user => {
 
-    if(!user){
+    if (!user) {
       next(new Error("wrong name or password"))
 
     }
@@ -181,26 +190,54 @@ app.post('/login',(req,res,next) => {
 })
 
 
-// ------ update Like Counter for post ----------------------------
+// +++ ------ UPDATE post.likecounter & post.likers for post in PostsDB ---------
 app.post('/updatelike', (req, res) => {
-  const postId = req.body.id;
+  const postId = req.body.id,
+        userId = req.body.userAct;
   Post.findById(postId).then(post => {
-    console.log("post >>>> ", post);
-
-    console.log("post.likecounter before + >>>> ", post.likecounter);
-    post.likecounter = post.likecounter+1;
-    console.log("post.likecounter after + >>>> ", post.likecounter);
-
+    post.likecounter = post.likecounter + 1;
+    post.likers.push(+userId)
     post.save()
       .then(() => {
-      res.json({post: post});
+        res.json({post: post});
+      })
+  })
+});
+
+
+// +++ ------ ADD new Comment to CommentsDB & UPDATE post.comments in PostsDB -------
+app.post('/addcomment', (req, res) => {
+  const text = req.body.commentValue,
+        postId = req.body.actPost,
+        userId = req.body.userAct,
+        commentId = Math.floor(Math.random() * 100001);
+
+  User.findById(userId).then(user => {
+    Post.findById(postId).then(post => {
+      const newComment = new Comment({
+        _id: +commentId,
+        text: text,
+        date: new Date(),
+        creator: user,
+        post: post
+      })
+      newComment.save()
+        .then(() => {
+          Comment.findById(commentId).then(comment => {
+            Post.findById(postId).then(post => {
+              post.comments.push(comment._id);
+              post.save().then(() => {
+                res.json({success: true});
+              });
+            })
+          })
+        })
     })
   })
 });
 
 
-
-app.get('/userfeed',(req,res) => {
+app.get('/userfeed', (req, res) => {
 
   User.find().populate().then(users => {
     res.json(users);
@@ -242,7 +279,7 @@ app.get('/commentfeed', (req, res) => {
 
 // app.use("/",authMiddleware);
 
-app.post('/post',(req,res) => {
+app.post('/post', (req, res) => {
 
   const text = req.body.text;
   const imageUrl = req.body.imageUrl;
@@ -262,7 +299,7 @@ app.post('/post',(req,res) => {
 
 });
 
-app.post('/comment/:postId',(req,res) => {
+app.post('/comment/:postId', (req, res) => {
   const text = req.body.text;
   const postId = req.params.postId;
 
@@ -271,12 +308,12 @@ app.post('/comment/:postId',(req,res) => {
     User.findById(req.userId).then(user => {
 
       const comment = new Comment(
-          {
-            text: text,
-            creator: user,
-            post: post,
-            date: new Date(),
-          }
+        {
+          text: text,
+          creator: user,
+          post: post,
+          date: new Date(),
+        }
       );
 
       comment.save().then(() => {
@@ -286,12 +323,8 @@ app.post('/comment/:postId',(req,res) => {
     })
 
 
-
-
   })
 });
-
-
 
 
 app.listen(port, () => {

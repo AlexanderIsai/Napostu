@@ -2,11 +2,10 @@ import React from 'react';
 import useStyles from './AppStyles';
 import {connect} from 'react-redux';
 import {useEffect} from 'react';
+
 import Loading from "./components/Loading/Loading";
 import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
-
-
 import {getUsers} from "./store/users/operations";
 import {getPosts} from "./store/posts/operations";
 import {getComments} from "./store/comments/operations";
@@ -23,7 +22,6 @@ const App = (props) => {
 
 
   const classes = useStyles();
-
   if (isLoading) {
     return (<Loading />)
   }
@@ -40,9 +38,6 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     isLoading: state.users.isLoading,
-    // users: state.users.users,
-    // posts: state.posts.posts,
-    // comments: state.comments.comments
   }
 }
 const mapDispatchToProps = (dispatch) => {

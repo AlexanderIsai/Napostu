@@ -8,8 +8,10 @@ import Hidden from '@material-ui/core/Hidden';
 import Link from '@material-ui/core/Link';
 import {Link as RouterLink} from 'react-router-dom';
 import Loading from "../../components/Loading/Loading";
+import Hat from "../../components/Hat/Hat";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import PostMain from "../../components/PostMain/PostMain";
+
 
 
 const MainPage = (props) => {
@@ -30,36 +32,20 @@ const MainPage = (props) => {
       actualPost.push(post);
   });
 
-  // console.log("USERS:", users);
-  // console.log("subscriptions:", subscriptions);
-  // console.log("toSubscribe:", toSubscribe);
-  // console.log("actualPost:", actualPost);
-
 
   const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
 
   const classes = useStyles();
   if (isLoading) {
-    return (<Loading/>)
+    return (<Loading />)
   }
   return (
     <>
       <div className={classes.root}>
-        <div className={classes.wrapper}>
           <Hidden only={['xs', 'sm']}>
-            <div style={
-              {
-                background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
-                  "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
-                  "rgba(240,241,242,1) 100%)",
-                height: "178px", position: "sticky", top: "0px", marginBottom: "16px",
-              }}>
-              <span style={{position: "relative", top: "25px", fontSize: "6.48em", color: "#f7f7f7"}}>NaPOSTU</span>
-            </div>
+            <Hat />
           </Hidden>
-          {/*<img width={"6%"} style={{position: 'fixed', top: "5px", left: "20px"}} alt="logoNaPost" src="LogoNaPOSTu.png" className="logoNaPostu"/>*/}
-
 
           <Grid container spasing={0}>
             <Grid item xs={12} md={8}>
@@ -68,11 +54,9 @@ const MainPage = (props) => {
                   <p className={classes.smallTitle} style={{textAlign: "left"}}>subscribtions</p>
                   <div className={classes.subscribtions}>
                     {
-
                       subscriptions.map((el, id) => {
                         return (
                           <div className={classes.subscribtionElBox} key={id}>
-
                             <UserAvatar
                               size="medium"
                               user={el}
@@ -83,7 +67,7 @@ const MainPage = (props) => {
                         )
                       })
                     }
-                    {/*-------- например продолжение подписок --------------------*/}
+                    {/*-------- e.g. continued subscriptions --------------------*/}
                     {
                       someUsers.map((el, id) => {
                         return (
@@ -100,7 +84,7 @@ const MainPage = (props) => {
 
                       })
                     }
-                    {/*-------- end продолжение подписок -------------------------*/}
+                    {/*-------- end e.g. continued subscriptions -------------------------*/}
 
                     {<div className={classes.spaceNeedsAtTheEndOfList}/>}
                   </div>
@@ -108,7 +92,9 @@ const MainPage = (props) => {
               </Hidden>
 
               <Box className={classes.postsLine}>
-                <p className={classes.smallTitlePostsLine} style={{}}>news</p>
+                <Hidden only={['xs', 'sm']}>
+                <p className={classes.smallTitlePostsLine} style={{}}>naPOSTU</p>
+                </Hidden>
                 {
                   actualPost.map((el, id) => {
                     return (
@@ -129,12 +115,12 @@ const MainPage = (props) => {
               <Grid item md={4}>
                 <Box className={classes.sideBarStickyBox}>
 
-                  <p className={classes.smallTitle} style={{color: '#3f51b5'}}>active profile</p>
+                  <p className={classes.smallTitle}>active profile</p>
                   <Paper className={classes.activeUserPaper}>
                     <Box className={classes.activeUserBox}>
                       <div className={classes.activeUserTxtBox}>
-                        <p className={classes.activeUserTxt}>NaPOSTU around the word!</p>
-                        <p className={classes.activeUserTxt}>POST your every moment!</p>
+                        <p className={classes.activeUserTxt}>La-La-La La-La.. i post around the word!</p>
+                        <p className={classes.activeUserTxt}>& maybe Even More...</p>
                       </div>
 
                       <div className={classes.activeUserAvatarBox}>
@@ -165,16 +151,16 @@ const MainPage = (props) => {
                             <Link component={RouterLink} to={`/users/${el._id}`}
                                   className={classes.offerToSubscribeItem}
                                   style={{textDecoration: 'none'}}>
-                              <span className={classes.linkToSubscribe}>
-                                {`${el.email}`.substr(0, 1) + `.${el.email}`.split('@')[0]} || check & subscribe
+                              <span className={classes.linkToSubscribe} style={{color: '#585757', marginRight: "4px"}}>
+                                {`${el.email}`.substr(0, 1) + `.${el.email}`.split('@')[0]}
                               </span>
+                              <span className={classes.linkToSubscribe}>check & subscribe</span>
                             </Link>
                           </div>
                         )
                       })
                     }
-
-                    {/*-------- например продолжение предложений о подписке --------------------*/}
+                    {/*-------- e.g. continued proposals for subscriptions --------------------*/}
                     {
                       someUsers.map((el, id) => {
                         return (
@@ -189,24 +175,21 @@ const MainPage = (props) => {
                             </div>
                             <Link component={RouterLink} to={`/users/${el}`} className={classes.offerToSubscribeItem}
                                   style={{textDecoration: 'none'}}>
-                              <span className={classes.linkToSubscribe}>s.someuser || check & subscribe</span>
+                              <span className={classes.linkToSubscribe} style={{color: '#585757', marginRight: "4px"}}>s.someuser</span>
+                              <span className={classes.linkToSubscribe}>check & subscribe</span>
                             </Link>
                           </div>
                         )
                       })
                     }
-                    {/*-------- end например продолжение предложений о подписке -----------------*/}
+                    {/*-------- end e.g. continued proposals for subscriptions -----------------*/}
                   </Paper>
 
                 </Box>
               </Grid>
             </Hidden>
 
-
           </Grid>
-
-
-        </div>
       </div>
     </>
   )

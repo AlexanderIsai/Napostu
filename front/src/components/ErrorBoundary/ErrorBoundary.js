@@ -9,18 +9,10 @@ class ErrorBoundary extends React.Component {
     this.state = {hasError: false, error: null, errorInfo: null};
   }
 
-  // componentDidCatch() - жизненный цикл вызывается после того, как дочерний компонент выдал ошибку.
-  // - вызывается во время фазы «фиксации», поэтому побочные эффекты разрешены
-  // - следует использовать для таких вещей, как ошибки регистрации
-  // - получает два параметра:
-  // error - ошибка, которую выкинули.
-  // info (errorInfo) - объект с componentStack ключом, содержащий информацию о том, какой компонент выдал ошибку .
   componentDidCatch(error, errorInfo) {
     this.setState({hasError: true, error: error, errorInfo: errorInfo});
   }
 
-  // getDerivedStateFromError() - жизненный цикл вызывается после того, как дочерний компонент выдал ошибку.
-  // - получает сообщение об ошибке в качестве параметра и должно возвращать значение для обновления состояния.
   static getDerivedStateFromError(error) {
     return {hasError: true};
   }

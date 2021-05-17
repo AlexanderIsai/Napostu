@@ -4,13 +4,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     position: "relative",
-  },
-
-  wrapper: {
+    maxWidth: "1280px",
+    margin: " 0 auto",
     padding: "0px 24px 0 24px",
     height: "100vh",
     overflow: "scroll",
-
     textAlign: "center",
     background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
       "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "right",
       fontSize: "0.8em",
       fontWeight: "500",
-      color: "lightgray",
+      color: "#3c415d99",
       margin: 0,
       // paddingBottom: "4px",
     },
@@ -42,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       position: "sticky",
       top: "212px",
       display: "table",
-      background: "#3f51b5",
+      background: "#ffd54b",
       padding: "0 4px",
       margin: 0,
     },
@@ -54,12 +52,13 @@ const useStyles = makeStyles((theme) => ({
 
   linkToSubscribe:{
     textDecoration: "none",
-    fontSize: "1em",
-    color: "#3f51b5",
+    fontSize: "1.2em",
+    color: "#f99f38",
     fontWeight: "500",
-    lineHeight: "1.08",
+    lineHeight: "0.7",
     letterSpacing: "0.027em",
     margin: 0,
+    fontVariant: "all-small-caps",
   },
 
     subscribtionElBoxSticky: {
@@ -114,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
       // padding: "8px",
       // height: "500px",
       // marginBottom: "54px",
-      margin: "0 2px 54px",
+      margin: "16px 2px 54px",
       background: "none",
     },
 
@@ -151,15 +150,15 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
       textAlign: "center",
       margin: "0 8px",
-
-      color: "#3f51b5",
+      color: "#ffffff",
+      background: "#ffd54b",
     },
 
     activeUserTxt: {
-      fontSize: "0.81em",
+      fontSize: "0.9em",
       fontWeight: "500",
       fontVariant: "small-caps",
-      lineHeight: "1.08",
+      lineHeight: "1.18",
       letterSpacing: "0.027em",
       margin: 0,
     },
@@ -181,11 +180,12 @@ const useStyles = makeStyles((theme) => ({
     //------------------ sideBar OfferToSubscribe ------------------
     sideBarOfferToSubscribe: {
       padding: "8px 8px 0",
+      marginTop: "16px",
       marginLeft: "36px",
       marginBottom: 0,
-      // marginTop: "6px",
-      height: "458px",
+      height: "544px",
       overflowY: "scroll",
+      // background: "#ffd54b",
     },
 
     offerToSubscribeElBox: {
