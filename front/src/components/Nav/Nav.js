@@ -1,5 +1,6 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
+// import { withRouter } from 'react-router';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { connect } from 'react-redux';
 import { setUserActive } from '../../store/auth/actions';
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles((theme) => ({
   navLink: {
@@ -90,11 +92,13 @@ const useStyles = makeStyles((theme) => ({
 
 function PrimarySearchAppBar(props) {
 
-  const { userActive } = props.auth;
+  const { userActive } = props;
+  console.log('userActive---- ', userActive)
   const { setUserActive } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -122,6 +126,19 @@ function PrimarySearchAppBar(props) {
     handleMenuClose();
   };
 
+  const handleProfile = () => {
+    handleMenuClose();
+    history.push(`/users/${userActive._id}`);
+  }
+
+
+  const usersToSubscribe = () => {
+    const subscriptions = userActive.subscriptions;
+    const usersTosubscribe = props.users.filter(user => userActive._id !== user._id && !subscriptions.includes(user._id));
+    console.log('userstosubscribe.length ---- ', usersTosubscribe)
+    return usersTosubscribe.length
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -133,8 +150,7 @@ function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      {/* <MenuItem onClick={handleMenuClose}>Log out</MenuItem> */}
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
@@ -152,39 +168,16 @@ function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <NavLink className={classes.navLinkMob} to='/items'>
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={1} color="secondary">
-              <span>P</span>
-            </Badge>
-          </IconButton>
-          <p>Я подписан</p>
-        </MenuItem>
-      </NavLink>
-
-      <NavLink className={classes.navLinkMob} to='/items'>
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={2} color="secondary">
-              <span>U</span>
-            </Badge>
-          </IconButton>
-          <p>На которых можно подписаться</p>
-        </MenuItem>
-      </NavLink>
-
-      <NavLink className={classes.navLinkMob} to='/items'>
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={3} color="secondary">
-              <span>F</span>
-            </Badge>
-          </IconButton>
-          <p>Избранное</p>
-        </MenuItem>
-      </NavLink>
-
+     
+      <MenuItem>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={userActive && userActive.subscriptions.length} color="secondary">
+            <span>F</span>
+          </Badge>
+        </IconButton>
+        <p>Избранное</p>
+      </MenuItem>
+      
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -214,7 +207,10 @@ function PrimarySearchAppBar(props) {
           
            <div className={classes.grow} />  {/* для размещения поиска по центру*/}
 
-          {userActive && <div className={classes.search}>
+          {userActive && 
+          
+          <Hidden only={['xs', 'sm']}>
+            <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -226,35 +222,17 @@ function PrimarySearchAppBar(props) {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>}
+          </div>
+          </Hidden>}
 
-          <div className={classes.grow} />  {/* для размещения поиска по центру, експериментальным способом */}
+          <div className={classes.grow} />  {/* для размещения поиска по центру */}
 
           {userActive && <div className={classes.sectionDesktop}>
-            <NavLink className={classes.navLink} to='/main'>
               <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={1} color="secondary">
-                  <span>P</span>
-                </Badge>
-              </IconButton>
-            </NavLink>
-
-            <NavLink className={classes.navLink} to='/asd'>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={2} color="secondary">
-                    <span>U</span>
-                  </Badge>
-                </IconButton>
-            </NavLink>
-
-            <NavLink className={classes.navLink} to='/asd'>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={3} color="secondary">
+                <Badge badgeContent={userActive && userActive.subscriptions.length} color="secondary">
                   <span>F</span>
                 </Badge>
               </IconButton>
-            </NavLink>
-
             <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -297,7 +275,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    userActive: state.auth.userActive,
+    users: state.users.users
   }
 }
 
