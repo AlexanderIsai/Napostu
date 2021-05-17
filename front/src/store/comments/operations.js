@@ -12,8 +12,10 @@ export const getComments = () => (dispatch) => {
     axios(`${path}`)
         .then(res => {
             const data = res.data;
+
           dispatch({type: LOAD_COMMENTS_SUCCESS, payload: false})
           return data;
+
         })
         .then(res => {
             dispatch(setComments(res));

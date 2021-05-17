@@ -1,5 +1,5 @@
 import { withStyles, makeStyles} from '@material-ui/core/styles';
-import {indigo, yellow, grey, deepOrange} from '@material-ui/core/colors';
+import {indigo, yellow, grey} from '@material-ui/core/colors';
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';

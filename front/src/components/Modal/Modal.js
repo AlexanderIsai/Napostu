@@ -2,6 +2,7 @@ import React from 'react';
 import './Modal.scss'
 import {connect} from "react-redux";
 import {hideModal} from "../../store/pages/operations";
+import PostContent from "../PosrContent/PostContent";
 
 const Modal = (props) =>{
 
@@ -9,8 +10,8 @@ const Modal = (props) =>{
         return (
             <div className="modal" onClick={(e)=>props.closeModal(e)}>
                         <div className="post-active">
-
-                                <img src={props.urlPost}/>
+                                <div className="post-active__image"> <img className='modal-image' src={props.urlPost}/></div>
+                                <PostContent postId={props.modalPostId}/>
                         </div>
             </div>
         );
@@ -19,10 +20,9 @@ const Modal = (props) =>{
 
 const mapStateToProps =(state) => {
         return {
-        urlPost: state.pages.urlPost,
-            modalPostId: state.pages.modalPostId,
+            urlPost: state.pages.urlPost,
             posts: state.posts.posts,
-            comments: state.comments.comments
+            modalPostId: state.pages.modalPostId
 
         }
 }

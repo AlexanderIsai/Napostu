@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './MainPage.scss';
 import useStyles from './MainPageStyles';
-
 import {connect} from "react-redux";
+import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 import {Grid, Paper, Box} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import Link from '@material-ui/core/Link';
@@ -13,11 +15,14 @@ import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import PostMain from "../../components/PostMain/PostMain";
 
 
-
 const MainPage = (props) => {
   const {isLoading, users, posts, userActive} = props;
+  const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
-  const subscriptions = [], toSubscribe = [], actualPost = [];
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+
+  const subscriptions = [], toSubscribe = [];
   userActive.subscriptions.forEach(el => {
     subscriptions.push(users.find(user => user._id === el));
   });
@@ -27,24 +32,43 @@ const MainPage = (props) => {
       toSubscribe.push(user);
   });
 
+  // ниже стр 36-40 закомментить для теста InfiniteScroll
+  const actualPost = [];
   posts.forEach(post => {
     if (post.creator === userActive._id || subscriptions.find(obj => obj._id === post.creator))
       actualPost.push(post);
   });
 
+  function getNextPosts() {
+    axios({
+      method: 'post',
+      url: '/getnextposts',
+      data: `currentPostLength=${postsToShow.length}&userActiveId=${userActive._id}&subscriptions=${userActive.subscriptions}`,
+    })
+      .then(res => {
+        setPostsToShow(res.data.postsToShow);
+        setHasMorePosts(res.data.hasMore);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
-  const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
+  useEffect(() => {
+    getNextPosts()
+  }, []);
 
 
   const classes = useStyles();
   if (isLoading) {
-    return (<Loading />)
+    return (<Loading/>)
   }
   return (
     <>
-      <div className={classes.root}>
+      <div id='scrollableDiv' className={classes.root}>
+        <div className={classes.paddingBox}>
           <Hidden only={['xs', 'sm']}>
-            <Hat />
+            <Hat/>
           </Hidden>
 
           <Grid container spasing={0}>
@@ -81,11 +105,9 @@ const MainPage = (props) => {
                             />
                           </div>
                         )
-
                       })
                     }
                     {/*-------- end e.g. continued subscriptions -------------------------*/}
-
                     {<div className={classes.spaceNeedsAtTheEndOfList}/>}
                   </div>
                 </Box>
@@ -93,8 +115,35 @@ const MainPage = (props) => {
 
               <Box className={classes.postsLine}>
                 <Hidden only={['xs', 'sm']}>
-                <p className={classes.smallTitlePostsLine} style={{}}>naPOSTU</p>
+                  <p className={classes.smallTitlePostsLine}>naPOSTU</p>
                 </Hidden>
+                {/*ниже стр 121-145 раскомментить для теста InfiniteScroll*/}
+                {/*<InfiniteScroll*/}
+                {/*  dataLength={postsToShow.length}*/}
+                {/*  next={getNextPosts}*/}
+                {/*  hasMore={hasMorePosts}*/}
+                {/*  loader={<h4>Loading...</h4>}*/}
+                {/*  scrollableTarget="scrollableDiv"*/}
+                {/*  scrollThreshold="250px"*/}
+                {/*  endMessage={*/}
+                {/*    <p style={{ textAlign: "center" }}>*/}
+                {/*      <b>Yay! You have seen all posts...</b>*/}
+                {/*    </p>*/}
+                {/*  }*/}
+                {/*>*/}
+                {/*  { postsToShow.map((el, id) => {*/}
+                {/*    return (*/}
+                {/*      <Paper className={classes.post} key={id} style={{}}>*/}
+                {/*        <PostMain*/}
+                {/*          post={el}*/}
+                {/*          creator={+el.creator}*/}
+                {/*        />*/}
+                {/*      </Paper>*/}
+                {/*    )*/}
+                {/*  })*/}
+                {/*  }*/}
+                {/*</InfiniteScroll>*/}
+                {/*ниже стр 147-158 закомментить для теста InfiniteScroll*/}
                 {
                   actualPost.map((el, id) => {
                     return (
@@ -119,10 +168,9 @@ const MainPage = (props) => {
                   <Paper className={classes.activeUserPaper}>
                     <Box className={classes.activeUserBox}>
                       <div className={classes.activeUserTxtBox}>
-                        <p className={classes.activeUserTxt}>La-La-La La-La.. i post around the word!</p>
-                        <p className={classes.activeUserTxt}>& maybe Even More...</p>
+                        <p className={classes.activeUserTxt}>La-La-La La-La.. I post around the word!</p>
+                        <p className={classes.activeUserTxt}>& maybe even More...</p>
                       </div>
-
                       <div className={classes.activeUserAvatarBox}>
                         <UserAvatar
                           size="large"
@@ -175,7 +223,8 @@ const MainPage = (props) => {
                             </div>
                             <Link component={RouterLink} to={`/users/${el}`} className={classes.offerToSubscribeItem}
                                   style={{textDecoration: 'none'}}>
-                              <span className={classes.linkToSubscribe} style={{color: '#585757', marginRight: "4px"}}>s.someuser</span>
+                              <span className={classes.linkToSubscribe}
+                                    style={{color: '#585757', marginRight: "4px"}}>s.someuser</span>
                               <span className={classes.linkToSubscribe}>check & subscribe</span>
                             </Link>
                           </div>
@@ -190,10 +239,11 @@ const MainPage = (props) => {
             </Hidden>
 
           </Grid>
+        </div>
       </div>
     </>
   )
-}
+};
 
 
 const mapStateToProps = (state) => {

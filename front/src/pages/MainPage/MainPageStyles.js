@@ -1,22 +1,25 @@
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    position: "relative",
-    maxWidth: "1280px",
-    margin: " 0 auto",
-    padding: "0px 24px 0 24px",
-    height: "100vh",
-    overflow: "scroll",
-    textAlign: "center",
-    background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
-      "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
-      "rgba(240,241,242,1) 100%)",
-  },
+    root: {
+      flexGrow: 1,
+      position: "relative",
+      maxWidth: "1280px",
+      margin: " 0 auto",
+      height: "100vh",
+      overflow: "scroll",
+      textAlign: "center",
+      background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
+        "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
+        "rgba(240,241,242,1) 100%)",
 
-  title: {
-      // textAlign: "center",
+    },
+
+    paddingBox: {
+      padding: "0px 24px 0 24px",
+    },
+
+    title: {
       fontSize: "2em",
       fontWeight: "500",
       letterSpacing: "-0.04em",
@@ -29,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "500",
       color: "#3c415d99",
       margin: 0,
-      // paddingBottom: "4px",
     },
 
     smallTitlePostsLine: {
@@ -50,16 +52,16 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "0.7em"
     },
 
-  linkToSubscribe:{
-    textDecoration: "none",
-    fontSize: "1.2em",
-    color: "#f99f38",
-    fontWeight: "500",
-    lineHeight: "0.7",
-    letterSpacing: "0.027em",
-    margin: 0,
-    fontVariant: "all-small-caps",
-  },
+    linkToSubscribe: {
+      textDecoration: "none",
+      fontSize: "1.2em",
+      color: "#f99f38",
+      fontWeight: "500",
+      lineHeight: "0.7",
+      letterSpacing: "0.027em",
+      margin: 0,
+      fontVariant: "all-small-caps",
+    },
 
     subscribtionElBoxSticky: {
       position: "sticky",
@@ -73,11 +75,9 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "36px",
       overflowX: "scroll",
 
-      // background: "white",
       background: "none",
       boxShadow: "none",
       borderRadius: 0,
-      // borderLeft: "1px solid lightgray",
       borderBottom: "1px solid lightgray",
       borderRight: "1px solid lightgray",
     },
@@ -92,10 +92,7 @@ const useStyles = makeStyles((theme) => ({
       overflowX: "scroll",
       background: "rgb(255 255 255 54%)",
 
-      // background: "#ffffff",
-      // border: "1px solid red",
       borderRadius: 16,
-      // borderRadius: "50%",
       boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
       padding: "8px",
       margin: "8px",
@@ -110,9 +107,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
     post: {
-      // padding: "8px",
-      // height: "500px",
-      // marginBottom: "54px",
       margin: "16px 2px 54px",
       background: "none",
     },
@@ -124,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
       position: "sticky",
       top: "194px",
     },
+
     //------------------ sideBar activeUser ------------------
     activeUserPaper: {
       height: "134px",
@@ -138,7 +133,6 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "space-evenly",
       height: "100%",
-      // padding: "3px 0",
 
       borderRight: "1px solid lightgray",
       borderBottom: "1px solid lightgray",
@@ -152,15 +146,17 @@ const useStyles = makeStyles((theme) => ({
       margin: "0 8px",
       color: "#ffffff",
       background: "#ffd54b",
+      cursor: "pointer",
     },
 
     activeUserTxt: {
-      fontSize: "0.9em",
-      fontWeight: "500",
+      fontSize: "0.86em",
+      fontWeight: "400",
       fontVariant: "small-caps",
-      lineHeight: "1.18",
+      lineHeight: "0.96",
       letterSpacing: "0.027em",
       margin: 0,
+      padding: "4px",
     },
 
     activeUserAvatarBox: {
@@ -185,7 +181,6 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
       height: "544px",
       overflowY: "scroll",
-      // background: "#ffd54b",
     },
 
     offerToSubscribeElBox: {
@@ -207,10 +202,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       fontSize: "0.7em",
       color: "#000000",
-    }
-    //____________________________________________________________________
+    },
 
-  }))
-;
+  })
+);
 
 export default useStyles;

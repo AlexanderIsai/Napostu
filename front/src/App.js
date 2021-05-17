@@ -34,7 +34,6 @@ const App = (props) => {
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
     isLoading: state.users.isLoading,

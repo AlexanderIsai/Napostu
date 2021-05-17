@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
   headerDescription: {
     color: "#585757",
-    fontSize: "1.1em",
+    fontSize: "0.9em",
   },
 
 

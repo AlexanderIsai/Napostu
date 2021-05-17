@@ -14,14 +14,14 @@ export const showModal = (e) =>(dispatch) => {
     let cursorTarget = e.target
     dispatch(setUrl(cursorTarget.src))
     dispatch(setModalPostId(cursorTarget.id))
-    console.log(cursorTarget.id);
+    // console.log(cursorTarget.id);
     dispatch(openModal( true))
 }
 
 
 
 export const hideModal = (e) => (dispatch) =>  {
-    if (e.currentTarget.classList.contains('modal')) {
+    if (e.target.classList.contains('modal')) {
         dispatch(closeModal( false))
     }
 }

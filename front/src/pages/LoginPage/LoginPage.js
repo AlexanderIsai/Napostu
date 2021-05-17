@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -50,11 +50,17 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = (props) => {
   const { authenticate, auth, handleReload } = props;
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     handleReload(localStorage.getItem('token'));
+  //   }
+  // }, []);
+
+  useLayoutEffect(() => {
     if (!auth.userActive && localStorage.getItem('token')) {
       handleReload(localStorage.getItem('token'));
     }
-  }, []);
+  })
 
   const password = useRef();
   const login = useRef();
@@ -75,7 +81,8 @@ const SignIn = (props) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <>
+    {!localStorage.getItem('token') && <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -132,7 +139,8 @@ const SignIn = (props) => {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>}
+    </>
   );
 }
 

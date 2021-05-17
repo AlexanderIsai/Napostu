@@ -25,9 +25,9 @@ const UserPage = (props) => {
                     return <div className="user-page" key={user._id}>
                                 <div className="top-user-page">
                                     <Avatar url={user.avatar}/>
-                                    <InfoBlock name={user.nickname} />
+                                    <InfoBlock user={user} />
                                 </div>
-                        <UserTitle click={props.active}/>
+                        {/*<UserTitle click={props.active}/>*/}
                         <PostList id={userId}/>
                            </div>})}
 
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        active: (e) => dispatch(handleUserNav(e)),
+        // active: (e) => dispatch(handleUserNav(e)),
         // getPosts: () => dispatch(getPosts())
 
     }
