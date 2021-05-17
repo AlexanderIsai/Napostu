@@ -15,13 +15,9 @@ const AppRoutes = (props) => {
       <div className="app-routes">
           <Switch>
               <Redirect exact from="/" to="/main"/>
-
-              <Route exact path="/users/:userId" component={UserPage}/>
-
               <Route exact path="/login" component={SignIn}/>
               <ProtectedRoute authenticated={userActive} exact path="/main" component={MainPage}/>
-              <ProtectedRoute authenticated={userActive} exact path="/api/users/:userId" component={UserPage}/>
-
+              <ProtectedRoute authenticated={userActive} exact path="/users/:userId" component={UserPage}/>
               <Route path="*" component={Page404}/>
           </Switch>
       </div>

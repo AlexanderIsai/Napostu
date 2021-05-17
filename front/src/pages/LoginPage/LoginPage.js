@@ -57,7 +57,7 @@ const SignIn = (props) => {
   // }, []);
 
   useLayoutEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (!auth.userActive && localStorage.getItem('token')) {
       handleReload(localStorage.getItem('token'));
     }
   })
