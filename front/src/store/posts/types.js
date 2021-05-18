@@ -2,6 +2,8 @@ export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
 
+export const SET_POSTS_I_S = "SET_POSTS_I_S";
+
 export const SET_POSTS = "SET_POSTS";
 
 export const SET_IS_POST_FAVORITE = "SET_IS_POST_FAVORITE";

@@ -1,11 +1,9 @@
-import {
-  LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, SET_POSTS,
-  SET_IS_POST_FAVORITE, UPDATE_LIKE_COUNTER, SHOW_HIDE_COMMENTS,
-  LOAD_POSTS_FAILURE,
-} from './types';
+import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, SET_POSTS_I_S, SET_POSTS,
+  SET_IS_POST_FAVORITE, UPDATE_LIKE_COUNTER, SHOW_HIDE_COMMENTS, LOAD_POSTS_FAILURE } from './types';
 
 const initialStatePosts = {
   isLoading: true,
+  isMorePosts: true,
   posts: [],
 }
 
@@ -17,6 +15,11 @@ const reducer = (state = initialStatePosts, action) => {
 
     case LOAD_POSTS_SUCCESS:
       return {...state, isLoading: false}
+
+
+    case SET_POSTS_I_S:
+      const NewPosts = action.payload.postsToShow;
+      return {...state, posts: NewPosts, isMorePosts: action.payload.hasMore}
 
 
     case SET_POSTS:
@@ -33,7 +36,7 @@ const reducer = (state = initialStatePosts, action) => {
       return {...state, posts: toggleIsPostFavorite}
 
 
-    case UPDATE_LIKE_COUNTER:                          // console.log("postId>> ", action.payload.postId, "userAct>> ", action.payload.userAct);
+    case UPDATE_LIKE_COUNTER:
       const updatePosts = state.posts.map(el => {
         if (el._id === action.payload.postId) {
           ++el.likecounter;
