@@ -273,7 +273,7 @@ app.post('/updatesub', (req, res) => {
       let indexToDel = user.subscriptions.indexOf(ownerPageId)
       console.log(indexToDel);
       user.subscriptions.splice(indexToDel, 1)
-    } else {
+    } else if (!user.subscriptions.includes(ownerPageId)){
       user.subscriptions.push(+ownerPageId)
     }
     console.log("userActive subscriptions AFTER >>>> ", user.subscriptions);
@@ -284,7 +284,7 @@ app.post('/updatesub', (req, res) => {
       if (user.subscribers.includes(activeUserId)){
       let indexToDel = user.subscribers.indexOf(activeUserId)
       user.subscribers.splice(indexToDel, 1)
-    } else {
+    } else if (!user.subscribers.includes(activeUserId)){
       user.subscribers.push(+activeUserId)
     }
       console.log("Owner subscribers >>>> ", user.subscribers);
