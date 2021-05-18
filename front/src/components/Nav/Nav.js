@@ -197,10 +197,10 @@ function PrimarySearchAppBar(props) {
       <AppBar position="static" style={{maxWidth: "1280px", margin: "0 auto", padding: "0"}}>
         <Toolbar>
           <NavLink style={{paddingLeft: "66px"}} className={classes.navLink} to='/main'>
-            <div style={{width: "54px", height: "54px", position: 'absolute', top: "2px", left: "27px", padding: "1px"}}>
-              <img style={{width: "100%"}} alt="logoNaPostu" src="LogoNP(mine).png" className="logoNaPostu"/>
+            <div style={{width: "57px", height: "57px", position: 'absolute', top: "5px", left: "27px", padding: "1px"}}>
+              <img style={{width: "100%"}} alt="logoNaPostu" src="LogoNP.png"/>
             </div>
-            <div style={{ width: "150px", position: 'absolute', top: "18px", left: "90px"}}>
+            <div style={{ width: "150px", position: 'absolute', top: "20px", left: "90px"}}>
               <img style={{ width: "100%"}} alt="logoNaPostu" src="LogoNPtxt.png"/>
             </div>
           </NavLink>
