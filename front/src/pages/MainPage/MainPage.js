@@ -2,25 +2,24 @@ import React, {useEffect, useState} from 'react';
 import './MainPage.scss';
 import useStyles from './MainPageStyles';
 import {connect} from "react-redux";
-import axios from 'axios';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {getPostsInfiniteScroll} from "../../store/posts/operations";
 
 import {Grid, Paper, Box} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import Link from '@material-ui/core/Link';
 import {Link as RouterLink} from 'react-router-dom';
-import Loading from "../../components/Loading/Loading";
+// import Loading from "../../components/Loading/Loading";
 import Hat from "../../components/Hat/Hat";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import PostMain from "../../components/PostMain/PostMain";
 
 
 const MainPage = (props) => {
-  const {isLoading, users, posts, userActive} = props;
+  const {isMorePosts, posts, users, userActive, getPostsInfiniteScroll, getPosts2} = props;
   const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
-  const [postsToShow, setPostsToShow] = useState([]);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
 
   const subscriptions = [], toSubscribe = [];
   userActive.subscriptions.forEach(el => {
@@ -32,37 +31,18 @@ const MainPage = (props) => {
       toSubscribe.push(user);
   });
 
-  // ниже стр 36-40 закомментить для теста InfiniteScroll
-  const actualPost = [];
-  posts.forEach(post => {
-    if (post.creator === userActive._id || subscriptions.find(obj => obj._id === post.creator))
-      actualPost.push(post);
-  });
 
   function getNextPosts() {
-    axios({
-      method: 'post',
-      url: '/getnextposts',
-      data: `currentPostLength=${postsToShow.length}&userActiveId=${userActive._id}&subscriptions=${userActive.subscriptions}`,
-    })
-      .then(res => {
-        setPostsToShow(res.data.postsToShow);
-        setHasMorePosts(res.data.hasMore);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    getPostsInfiniteScroll(posts.length, userActive._id, userActive.subscriptions);
   }
 
   useEffect(() => {
-    getNextPosts()
-  }, []);
+    getPostsInfiniteScroll(posts.length, userActive._id, userActive.subscriptions);
+    }, [getPosts2]);
+
 
 
   const classes = useStyles();
-  if (isLoading) {
-    return (<Loading/>)
-  }
   return (
     <>
       <div id='scrollableDiv' className={classes.root}>
@@ -113,39 +93,25 @@ const MainPage = (props) => {
                 </Box>
               </Hidden>
 
-              <Box className={classes.postsLine}>
+
+              <Box id='scrollableDiv' className={classes.postsLine}>
                 <Hidden only={['xs', 'sm']}>
                   <p className={classes.smallTitlePostsLine}>naPOSTU</p>
                 </Hidden>
-                {/*ниже стр 121-145 раскомментить для теста InfiniteScroll*/}
-                {/*<InfiniteScroll*/}
-                {/*  dataLength={postsToShow.length}*/}
-                {/*  next={getNextPosts}*/}
-                {/*  hasMore={hasMorePosts}*/}
-                {/*  loader={<h4>Loading...</h4>}*/}
-                {/*  scrollableTarget="scrollableDiv"*/}
-                {/*  scrollThreshold="250px"*/}
-                {/*  endMessage={*/}
-                {/*    <p style={{ textAlign: "center" }}>*/}
-                {/*      <b>Yay! You have seen all posts...</b>*/}
-                {/*    </p>*/}
-                {/*  }*/}
-                {/*>*/}
-                {/*  { postsToShow.map((el, id) => {*/}
-                {/*    return (*/}
-                {/*      <Paper className={classes.post} key={id} style={{}}>*/}
-                {/*        <PostMain*/}
-                {/*          post={el}*/}
-                {/*          creator={+el.creator}*/}
-                {/*        />*/}
-                {/*      </Paper>*/}
-                {/*    )*/}
-                {/*  })*/}
-                {/*  }*/}
-                {/*</InfiniteScroll>*/}
-                {/*ниже стр 147-158 закомментить для теста InfiniteScroll*/}
-                {
-                  actualPost.map((el, id) => {
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  next={getNextPosts}
+                  hasMore={isMorePosts}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                  scrollThreshold="250px"
+                  endMessage={
+                    <p style={{ textAlign: "center" }}>
+                      <b>Yay! You have seen all posts...</b>
+                    </p>
+                  }
+                >
+                  { posts.map((el, id) => {
                     return (
                       <Paper className={classes.post} key={id} style={{}}>
                         <PostMain
@@ -155,10 +121,10 @@ const MainPage = (props) => {
                       </Paper>
                     )
                   })
-                }
+                  }
+                </InfiniteScroll>
               </Box>
             </Grid>
-
 
             <Hidden only={['xs', 'sm']}>
               <Grid item md={4}>
@@ -248,13 +214,19 @@ const MainPage = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.users.isLoading,
+    isLoading: state.posts.isLoading,
+    isMorePosts: state.posts.isMorePosts,
+    posts: state.posts.posts,
+
     userActive: state.auth.userActive,
     users: state.users.users,
-    posts: state.posts.posts,
   }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    getPostsInfiniteScroll: (postsLength, userActiveId, userActiveSubscriptions) =>
+      dispatch(getPostsInfiniteScroll(postsLength, userActiveId, userActiveSubscriptions)),
+
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

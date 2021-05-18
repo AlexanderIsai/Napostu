@@ -1,12 +1,10 @@
-import { SET_POST_ACTIVE, SET_LIKE_COUNTER,
-  SEND_UPDATE_LIKE_COUNTER_REQUEST, UPDATE_LIKE_COUNTER_SUCCESS,
-  SET_IS_POST_FAVORITE } from './types';
+import {SET_POST_ACTIVE, SET_LIKE_COUNTER,
+  UPDATE_LIKE_COUNTER_REQUEST, UPDATE_LIKE_COUNTER_REQUEST_SUCCESS,} from './types';
 
 const initialStatePost = {
   postActiveId: 0,
   postLikeCounter: 0,
-  postIsFavorite: false,
-  sendRequestForUpdateLikeCounter: false,
+  updateLikeCounterRequest: false,
 }
 
 const reducer = (state = initialStatePost, action) => {
@@ -17,14 +15,11 @@ const reducer = (state = initialStatePost, action) => {
     case SET_LIKE_COUNTER:
       return {...state, postLikeCounter: action.payload}
 
-    case SEND_UPDATE_LIKE_COUNTER_REQUEST:
-      return {...state, sendRequestForUpdateLikeCounter: true}
+    case UPDATE_LIKE_COUNTER_REQUEST:
+      return {...state, updateLikeCounterRequest: true}
 
-    case UPDATE_LIKE_COUNTER_SUCCESS:
-      return {...state, sendRequestForUpdateLikeCounter: false}
-
-    case SET_IS_POST_FAVORITE:
-      return {...state, postLikeCounter: action.payload}
+    case UPDATE_LIKE_COUNTER_REQUEST_SUCCESS:
+      return {...state, updateLikeCounterRequest: false}
 
     default:
       return state;

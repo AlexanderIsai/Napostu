@@ -44,4 +44,5 @@ export const addComment = (commentValue, actPost, userAct) => (dispatch) => {
     .catch(err => {
       console.log(err);
     });
+
 };

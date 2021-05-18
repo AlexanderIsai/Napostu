@@ -1,4 +1,3 @@
-// import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   avatarPhotoBoxBorder: {
     padding: "4px",
     borderRadius: "50%",
-    border: "1px solid gold",
+    border: "2px solid #ffd54b",
   },
 
   nickTextLink: {

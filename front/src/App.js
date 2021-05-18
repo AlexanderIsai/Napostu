@@ -7,18 +7,17 @@ import Loading from "./components/Loading/Loading";
 import Header from './components/Header/Header';
 import AppRoutes from './routes/AppRoutes';
 import {getUsers} from "./store/users/operations";
-import {getPosts} from "./store/posts/operations";
 import {getComments} from "./store/comments/operations";
 
 
 const App = (props) => {
-  const {isLoading, getUsers, getPosts, getComments} = props;
+  const {isLoading, getUsers, getComments} = props;
 
   useEffect(() => {
     getUsers()
-    getPosts()
     getComments()
-  }, [getUsers, getPosts, getComments]);
+  }, [getUsers, getComments]);
+
 
 
   const classes = useStyles();
@@ -42,7 +41,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsers: () => dispatch(getUsers()),
-    getPosts: () => dispatch(getPosts()),
     getComments: () => dispatch(getComments())
   }
 }

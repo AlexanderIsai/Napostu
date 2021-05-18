@@ -42,4 +42,5 @@ export const updateSubDB = (userId, ownId) => (dispatch) => {
       console.log(err);
 
     })
+
 };

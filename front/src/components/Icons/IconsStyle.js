@@ -67,4 +67,6 @@ export const MyFavoriteIconActive = withStyles((theme) => ({
       color: grey[300],
     },
   },
+
 }))(FavoriteIcon);
+
