@@ -1,14 +1,9 @@
-import {
-    LOAD_USERS_REQUEST,
-    LOAD_USERS_SUCCESS,
-    LOAD_USERS_FAILURE,
-    UPDATE_SUBSCRIBE_SUCCESS,
-    UPDATE_SUBSCRIBERS
-} from './types';
-import axios from "axios";
-import {sendRequestForUpdateSub, setUsers, updateSubscribers} from "./actions";
+
 import {requestHeaders} from "../../helpers/requests_helper";
 
+import {LOAD_USERS_REQUEST, LOAD_USERS_SUCCESS, LOAD_USERS_FAILURE, UPDATE_SUBSCRIBE_SUCCESS, SET_USERS} from './types';
+import axios from "axios";
+import {sendRequestForUpdateSub, setUsers} from "./actions";
 
 const pathUser = `/userfeed`;
 
@@ -17,13 +12,12 @@ export const getUsers = () => (dispatch, getState) => {
 
   axios(`${pathUser}`)
     .then(res => {
-      const data = res.data;    // console.log("LOAD_USERS_SUCCESS: ", data);
-      dispatch({type: LOAD_USERS_SUCCESS, payload: data})
+      const data = res.data;
+      dispatch({type: LOAD_USERS_SUCCESS})
       return data;
     })
     .then(res => {
       dispatch(setUsers(res));
-        dispatch({type: LOAD_USERS_SUCCESS, payload: false})
       return res;
     })
     .catch(error => {
@@ -38,8 +32,6 @@ export const updateSubDB = (e, userId, ownId) => (dispatch) => {
     } else if (e.target.value === "Відписатись"){
         e.target.value = "Підписатись"
     }
-
-
     axios({
         method: 'POST',
         url: '/updatesub',
@@ -49,13 +41,11 @@ export const updateSubDB = (e, userId, ownId) => (dispatch) => {
         dispatch(sendRequestForUpdateSub());
         return res;
     }).then( res => {
-        if(res) {
+        if (res) {
             dispatch({type: UPDATE_SUBSCRIBE_SUCCESS})
-
         }
     })
-        .catch(err => {
-            console.log(err);
-
-        });
 };
+
+
+

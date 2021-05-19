@@ -7,9 +7,11 @@ import PostList from "../../components/PostList/PostList";
 import Modal from "../../components/Modal/Modal";
 import React from 'react';
 
+
 const UserPage = (props) => {
   const params = useParams();
   const {userId} = params;
+
     let userInfo = props.users.filter(us => us._id == userId)
     return (
         <>
@@ -37,6 +39,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
+
     }
 }
 

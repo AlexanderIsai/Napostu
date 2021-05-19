@@ -3,6 +3,7 @@ import "./ButtonSubscribe.scss"
 import {connect} from "react-redux";
 import {updateSubDB} from "../../store/users/operations";
 import {updateSubscribers, updateSubscriptions} from "../../store/users/actions";
+import {updateSubscriptionsUserActive} from "../../store/auth/actions";
 
 const ButtonSubscribe = (props) => {
     const {owner, updateSubDB, updateSubscribers, updateSubscriptions} = props
@@ -14,6 +15,8 @@ const ButtonSubscribe = (props) => {
         updateSubDB(e, props.userActive._id, owner._id)
         updateSubscribers(props.userActive._id, owner._id)
         updateSubscriptions(props.userActive._id, owner._id)
+        updateSubscriptionsUserActive(owner._id)
+
     }
 
     return (
@@ -34,7 +37,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updateSubDB: (e, a, b) => dispatch(updateSubDB(e, a, b)),
         updateSubscribers: (userAct, ownerId) => dispatch(updateSubscribers(userAct, ownerId)),
-        updateSubscriptions: (userAct, ownerId) => dispatch(updateSubscriptions(userAct, ownerId))
+        updateSubscriptions: (userAct, ownerId) => dispatch(updateSubscriptions(userAct, ownerId)),
+        updateSubscriptionsUserActive: (ownerId) => dispatch(updateSubscriptionsUserActive(ownerId))
 
     }
 }

@@ -1,33 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import useStyles from './MainPageStyles';
-
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-import {Grid, Paper, Box} from '@material-ui/core';// import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import Link from '@material-ui/core/Link';
-import {Link as RouterLink} from 'react-router-dom';
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import './MainPage.scss';
-
-
+import useStyles from './MainPageStyles';
 import {connect} from "react-redux";
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+import {getPostsInfiniteScroll} from "../../store/posts/operations";
+
+import {Grid, Paper, Box} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
-
-
-import Loading from "../../components/Loading/Loading";
-
+import Link from '@material-ui/core/Link';
+import {Link as RouterLink} from 'react-router-dom';
+// import Loading from "../../components/Loading/Loading";
+import Hat from "../../components/Hat/Hat";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import PostMain from "../../components/PostMain/PostMain";
 
 
 const MainPage = (props) => {
+  const {isMorePosts, posts, users, userActive, getPostsInfiniteScroll, getPosts2} = props;
+  const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
 
-  const [postsToShow, setPostsToShow] = useState([]);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
-
-  const {isLoading, users, posts, userActive} = props;
-  
 
   const subscriptions = [], toSubscribe = [];
   userActive.subscriptions.forEach(el => {
@@ -39,55 +31,25 @@ const MainPage = (props) => {
       toSubscribe.push(user);
   });
 
-  // console.log("USERS:", users);
-  // console.log("subscriptions:", subscriptions);
-  // console.log("toSubscribe:", toSubscribe);
-  // console.log("actualPost:", actualPost);
-
-
-  const someUsers = ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110"];
-
-  useEffect(() => {
-    getNextPosts()
-  }, []);
 
   function getNextPosts() {
-    axios({
-      method: 'post',
-      url: '/getnextposts',
-      data: `currentPostLength=${postsToShow.length}&userActiveId=${userActive._id}&subscriptions=${userActive.subscriptions}`,
-    })
-    .then(res => {
-     setPostsToShow(res.data.postsToShow);
-     setHasMorePosts(res.data.hasMore);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    getPostsInfiniteScroll(posts.length, userActive._id, userActive.subscriptions);
   }
-  
+
+  useEffect(() => {
+    getPostsInfiniteScroll(posts.length, userActive._id, userActive.subscriptions);
+    }, [getPosts2]);
+
+
+
   const classes = useStyles();
-  if (isLoading) {
-    return (<Loading/>)
-  }
   return (
     <>
-      <div className={classes.root}>
-        <div id='scrollableDiv' className={classes.wrapper}>
+      <div id='scrollableDiv' className={classes.root}>
+        <div className={classes.paddingBox}>
           <Hidden only={['xs', 'sm']}>
-            <div style={
-              {
-                background: "linear-gradient(90deg, rgba(240,241,242,1) 0%, " +
-                  "rgba(253,253,253,1) 25%, rgba(255,255,255,1) 50%, rgba(254,254,254,1) 75%, " +
-                  "rgba(240,241,242,1) 100%)",
-                height: "178px", position: "sticky", top: "0px", marginBottom: "16px",
-              }}>
-              <span style={{position: "relative", top: "25px", fontSize: "6.48em", color: "#f7f7f7"}}>NaPOSTU</span>
-            </div>
+            <Hat/>
           </Hidden>
-          {/*<img width={"6%"} style={{position: 'fixed', top: "5px", left: "20px"}} alt="logoNaPost" src="LogoNaPOSTu.png" className="logoNaPostu"/>*/}
-
-
 
           <Grid container spasing={0}>
             <Grid item xs={12} md={8}>
@@ -96,11 +58,9 @@ const MainPage = (props) => {
                   <p className={classes.smallTitle} style={{textAlign: "left"}}>subscribtions</p>
                   <div className={classes.subscribtions}>
                     {
-
                       subscriptions.map((el, id) => {
                         return (
                           <div className={classes.subscribtionElBox} key={id}>
-
                             <UserAvatar
                               size="medium"
                               user={el}
@@ -111,7 +71,7 @@ const MainPage = (props) => {
                         )
                       })
                     }
-                    {/*-------- например продолжение подписок --------------------*/}
+                    {/*-------- e.g. continued subscriptions --------------------*/}
                     {
                       someUsers.map((el, id) => {
                         return (
@@ -125,23 +85,23 @@ const MainPage = (props) => {
                             />
                           </div>
                         )
-
                       })
                     }
-                    {/*-------- end продолжение подписок -------------------------*/}
-
+                    {/*-------- end e.g. continued subscriptions -------------------------*/}
                     {<div className={classes.spaceNeedsAtTheEndOfList}/>}
                   </div>
                 </Box>
               </Hidden>
 
-              <Box className={classes.postsLine}>
-                <p className={classes.smallTitlePostsLine} style={{}}>news</p>
 
+              <Box id='scrollableDiv' className={classes.postsLine}>
+                <Hidden only={['xs', 'sm']}>
+                  <p className={classes.smallTitlePostsLine}>naPOSTU</p>
+                </Hidden>
                 <InfiniteScroll
-                  dataLength={postsToShow.length}
+                  dataLength={posts.length}
                   next={getNextPosts}
-                  hasMore={hasMorePosts}
+                  hasMore={isMorePosts}
                   loader={<h4>Loading...</h4>}
                   scrollableTarget="scrollableDiv"
                   scrollThreshold="250px"
@@ -151,8 +111,7 @@ const MainPage = (props) => {
                     </p>
                   }
                 >
-                          
-                  { postsToShow.map((el, id) => {
+                  { posts.map((el, id) => {
                     return (
                       <Paper className={classes.post} key={id} style={{}}>
                         <PostMain
@@ -162,26 +121,22 @@ const MainPage = (props) => {
                       </Paper>
                     )
                   })
-                }    
+                  }
                 </InfiniteScroll>
-
-
               </Box>
             </Grid>
-
 
             <Hidden only={['xs', 'sm']}>
               <Grid item md={4}>
                 <Box className={classes.sideBarStickyBox}>
 
-                  <p className={classes.smallTitle} style={{color: '#3f51b5'}}>active profile</p>
+                  <p className={classes.smallTitle}>active profile</p>
                   <Paper className={classes.activeUserPaper}>
                     <Box className={classes.activeUserBox}>
                       <div className={classes.activeUserTxtBox}>
-                        <p className={classes.activeUserTxt}>NaPOSTU around the word!</p>
-                        <p className={classes.activeUserTxt}>POST your every moment!</p>
+                        <p className={classes.activeUserTxt}>La-La-La La-La.. I post around the word!</p>
+                        <p className={classes.activeUserTxt}>& maybe even More...</p>
                       </div>
-
                       <div className={classes.activeUserAvatarBox}>
                         <UserAvatar
                           size="large"
@@ -210,16 +165,16 @@ const MainPage = (props) => {
                             <Link component={RouterLink} to={`/users/${el._id}`}
                                   className={classes.offerToSubscribeItem}
                                   style={{textDecoration: 'none'}}>
-                              <span className={classes.linkToSubscribe}>
-                                {`${el.email}`.substr(0, 1) + `.${el.email}`.split('@')[0]} || check & subscribe
+                              <span className={classes.linkToSubscribe} style={{color: '#585757', marginRight: "4px"}}>
+                                {`${el.email}`.substr(0, 1) + `.${el.email}`.split('@')[0]}
                               </span>
+                              <span className={classes.linkToSubscribe}>check & subscribe</span>
                             </Link>
                           </div>
                         )
                       })
                     }
-
-                    {/*-------- например продолжение предложений о подписке --------------------*/}
+                    {/*-------- e.g. continued proposals for subscriptions --------------------*/}
                     {
                       someUsers.map((el, id) => {
                         return (
@@ -234,39 +189,44 @@ const MainPage = (props) => {
                             </div>
                             <Link component={RouterLink} to={`/users/${el}`} className={classes.offerToSubscribeItem}
                                   style={{textDecoration: 'none'}}>
-                              <span className={classes.linkToSubscribe}>s.someuser || check & subscribe</span>
+                              <span className={classes.linkToSubscribe}
+                                    style={{color: '#585757', marginRight: "4px"}}>s.someuser</span>
+                              <span className={classes.linkToSubscribe}>check & subscribe</span>
                             </Link>
                           </div>
                         )
                       })
                     }
-                    {/*-------- end например продолжение предложений о подписке -----------------*/}
+                    {/*-------- end e.g. continued proposals for subscriptions -----------------*/}
                   </Paper>
 
                 </Box>
               </Grid>
             </Hidden>
 
-
           </Grid>
-
-
         </div>
       </div>
     </>
   )
-}
+};
 
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.users.isLoading,
+    isLoading: state.posts.isLoading,
+    isMorePosts: state.posts.isMorePosts,
+    posts: state.posts.posts,
+
     userActive: state.auth.userActive,
     users: state.users.users,
-    posts: state.posts.posts,
   }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    getPostsInfiniteScroll: (postsLength, userActiveId, userActiveSubscriptions) =>
+      dispatch(getPostsInfiniteScroll(postsLength, userActiveId, userActiveSubscriptions)),
+
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

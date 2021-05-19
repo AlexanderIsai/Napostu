@@ -1,13 +1,18 @@
-import {createMuiTheme, withStyles, makeStyles, ThemeProvider} from '@material-ui/core/styles';
-import {green, purple, pink, indigo} from '@material-ui/core/colors';
-
+import { withStyles, makeStyles} from '@material-ui/core/styles';
+import {indigo, yellow, grey} from '@material-ui/core/colors';
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
+
 export const useStyles = makeStyles((theme) => ({
   iconStile: {
-    margin: theme.spacing(1),
+    margin: "0 24px 0 0",
+    position: "inherit",
+  },
+
+  iconAddComment: {
+    margin: "0 0 0 24px",
     position: "inherit",
   },
 }));
@@ -20,7 +25,7 @@ export const MyThumbUpIcon = withStyles((theme) => ({
       color: indigo[700],
     },
     '&:active': {
-      color: green[700],
+      color: yellow[700],
     },
   },
 }))(ThumbUpIcon);
@@ -28,27 +33,40 @@ export const MyThumbUpIcon = withStyles((theme) => ({
 
 export const MyAddCommentIcon = withStyles((theme) => ({
   root: {
-    color: purple[300],
+    color: grey[400],
     '&:hover': {
-      color: purple[700],
+      color: yellow[700],
     },
     '&:active': {
-      color: green[700],
+      color: yellow[900],
     },
   },
 }))(AddCommentIcon);
 
 
-export const MyFavoriteIcon = withStyles((theme) => ({
+export const MyFavoriteIconPassive = withStyles((theme) => ({
   root: {
-    color: pink[50],
+    color: grey[300],
     '&:hover': {
-      color: pink["A400"],
+      color: grey[400],
     },
     '&:active': {
-      color: green[700],
+      color:yellow[700],
     },
   },
 }))(FavoriteIcon);
 
+
+export const MyFavoriteIconActive = withStyles((theme) => ({
+  root: {
+    color: yellow[700],
+    '&:hover': {
+      color: grey[400],
+    },
+    '&:active': {
+      color: grey[300],
+    },
+  },
+
+}))(FavoriteIcon);
 

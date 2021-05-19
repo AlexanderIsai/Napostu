@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./PostList.scss"
 import MyPost from "../MyPost/MyPost";
 import {connect} from "react-redux";
 import UserTitle from "../UserTitle/UserTitle";
 import {handleUserNav} from "../../store/pages/operations";
+import {getPosts} from "../../store/posts/operations";
 
 const PostList = (props) => {
-    const {id} = props
+    const {id, getPosts} = props
+    useEffect(() => {
+        getPosts()
+
+    }, [getPosts]);
     let postInfo = props.posts.filter(po => po.creator == id)
+
     return (
         <div>
             <UserTitle click={props.active}/>
@@ -25,7 +31,7 @@ const PostList = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        posts: state.posts.posts,
+        posts: state.posts.userPosts,
         users: state.users.users
     }
 }
@@ -33,6 +39,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         active: (e) => dispatch(handleUserNav(e)),
+        getPosts: () => dispatch(getPosts())
     }
 }
 

@@ -12,6 +12,8 @@ const initialState = {
   users: []
 }
 
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_USERS_REQUEST:
@@ -31,6 +33,7 @@ const reducer = (state = initialState, action) => {
 
       const updateUsersSubscribers = state.users.map(user => {
         if (user._id === action.payload.ownerId) {
+
           if (!user.subscribers.includes(action.payload.userAct)){
             user.subscribers.push(action.payload.userAct)
           }
@@ -39,6 +42,7 @@ const reducer = (state = initialState, action) => {
             user.subscribers.splice(indexToDel, 1)
           }
         }
+
         return user;
       })
       return {...state, users: updateUsersSubscribers}
@@ -53,6 +57,7 @@ const reducer = (state = initialState, action) => {
             let indexToDel = user.subscriptions.indexOf(action.payload.ownerId)
             user.subscriptions.splice(indexToDel, 1)
           }
+
         }
         return user;
       })
