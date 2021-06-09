@@ -21,7 +21,7 @@ const Modal = (props) =>{
 const mapStateToProps =(state) => {
         return {
             urlPost: state.pages.urlPost,
-            posts: state.posts.posts,
+            posts: state.posts.userPosts,
             modalPostId: state.pages.modalPostId
 
         }

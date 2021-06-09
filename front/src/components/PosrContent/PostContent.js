@@ -34,7 +34,7 @@ const PostContent = (props) => {
 const mapStateToProps =(state) => {
     return {
         modalPostId: state.pages.modalPostId,
-        posts: state.posts.posts,
+        posts: state.posts.userPosts,
         comments: state.comments.comments,
         users: state.users.users
     }

@@ -1,4 +1,5 @@
 import {ACTIVE_USER_TITLE, CLOSE_MODAL, OPEN_MODAL, SET_POST_ID, SET_URL} from "./types";
+import {CHANGE_BUTTON_NAME} from "../users/types";
 
 
 export const activeUserTitle = (data) => {
@@ -20,3 +21,4 @@ export const setUrl = (data) => {
 export const setModalPostId = (data) => {
     return {type: SET_POST_ID, payload: data}
 }
+

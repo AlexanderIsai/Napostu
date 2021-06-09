@@ -7,9 +7,10 @@ import {
   UPDATE_SUBSCRIPTIONS,
 } from './types';
 
+
 const initialState = {
   isLoading: true,
-  users: []
+  users: [],
 }
 
 
@@ -36,6 +37,7 @@ const reducer = (state = initialState, action) => {
 
           if (!user.subscribers.includes(action.payload.userAct)){
             user.subscribers.push(action.payload.userAct)
+
           }
           else {
             let indexToDel = user.subscribers.indexOf(action.payload.userAct)
@@ -52,6 +54,7 @@ const reducer = (state = initialState, action) => {
         if (user._id === action.payload.userAct) {
           if (!user.subscriptions.includes(action.payload.ownerId)){
             user.subscriptions.push(action.payload.ownerId)
+
           }
           else {
             let indexToDel = user.subscriptions.indexOf(action.payload.ownerId)
@@ -62,6 +65,9 @@ const reducer = (state = initialState, action) => {
         return user;
       })
       return {...state, users: updateUsersSubscriptions}
+
+
+
 
     default:
       return state;

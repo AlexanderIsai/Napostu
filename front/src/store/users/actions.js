@@ -3,7 +3,6 @@ import {
   SET_USERS,
   UPDATE_SUBSCRIBERS,
   UPDATE_SUBSCRIPTIONS,
-  UPDATE_SUBSCRIPTIONS_USER_ACTIVE
 } from './types';
 
 export const setUsers = (data) => {
@@ -21,4 +20,5 @@ export const updateSubscribers = (userAct, ownerId) => {
 export const updateSubscriptions = (userAct, ownerId) => {
   return ({type: UPDATE_SUBSCRIPTIONS, payload: {"userAct": userAct, "ownerId": ownerId}});
 }
+
 
